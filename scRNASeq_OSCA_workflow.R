@@ -22,3 +22,22 @@ counts_matrix <- as.matrix(counts_matrix)
 
 sce <- SingleCellExperiment(assays = list(counts = counts_matrix))
 counts(sce)
+
+
+############################
+# WORKING WITH THE sce CLASS
+############################
+sce <- computeSumFactors(sce)
+sce <- logNormCounts(sce)
+logcounts(sce)
+assays(sce)
+
+cell_metadata <- data.frame(batch = c(1, 1, 2))
+rownames(cell_metadata) <- paste0("cell_", 1:3)
+
+rowRanges(sce)
+
+sce <- addPerFeatureQC(sce)
+sce[c("gene_1", "gene_4"), ]
+
+sizeFactors(sce)
