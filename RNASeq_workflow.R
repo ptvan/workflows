@@ -54,9 +54,9 @@ mData <- mergeData(mergeAnnotation=FALSE)
 counts <- sumDuplicates(mData$counts, mData$featureData, NULL)
 
 
-######################
-# GENERATE DUMMY DATA
-######################
+###########################################
+# GENERATE DUMMY DATA FOR REMAINING EXAMPLES
+###########################################
 
 # get a bunch of human gene names
 genes <- unlist(lookUp(as.character(1:50000), 'org.Hs.eg', 'SYMBOL')) 
