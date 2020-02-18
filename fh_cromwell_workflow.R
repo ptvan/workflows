@@ -3,7 +3,7 @@
 #
 # 2. Clone the Cromwell server skeleton: 
 # `git clone https://github.com/FredHutch/diy-cromwell-server cromwell`
-# edit 
+# edit cromwellParams.sh as appropriate
 
 library(fh.wdlR)
 cromwellCreate(FredHutchId = "pvan", port = "2020",
