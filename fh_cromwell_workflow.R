@@ -13,7 +13,16 @@
 # browsing `http://gizmo[nodenumber]:2020`, where 2020 is the port specified below
 
 library(fh.wdlR)
-cromwellCreate(FredHutchId = "pvan", port = "2020",
-               pathToServerLogs = "/fh/fast/gottardo_r/pvan_working/cromwell/cromwell-serverlogs/%A.txt",
-               pathToScript = "/fh/fast/gottardo_r/pvan_working/cromwell/config/cromServer.sh",
-               pathToParams = "/fh/fast/gottardo_r/pvan_working/cromwell/config/cromwellParams.sh")
+
+pworkDir <- "/fh/fast/gottardo_r/pvan_working/"
+
+if (Sys.info()["sysname"] == "Darwin") {
+  pworkDir <- "~/rhino"
+}
+
+cromwellCreate(FredHutchId = "pvan", 
+               port = "2020",
+               pathToServerLogs = paste0(pworkDir, "/cromwell/cromwell-serverlogs/%A.txt"),
+               pathToServerScript = paste0(pworkDir, "/cromwell/config/cromServer.sh"),
+               pathToParams = paste0(pworkDir, "/cromwell/config/cromwellParams.sh")
+               )
