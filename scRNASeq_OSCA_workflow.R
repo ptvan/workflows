@@ -3,17 +3,18 @@
 # formally published in https://www.nature.com/articles/s41592-019-0654-x)
 
 library(BiocManager)
-install(c("SingleCellExperiment","scater","scran","uwot","Rtnse"))
+install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq"))
 
 library(SingleCellExperiment)
 library(scater)
 library(scran)
 library(uwot)
 library(Rtsne)
+library(scRNASeq)
         
-###########################################
-# GENERATE DUMMY DATA FOR REMAINING EXAMPLES
-###########################################
+#################################################
+# GENERATE DUMMY DATA TO WORK WITH THE sce CLASS
+#################################################
 counts_matrix <- data.frame(cell_1 = rpois(10, 10), 
                             cell_2 = rpois(10, 10), 
                             cell_3 = rpois(10, 30))
@@ -23,10 +24,6 @@ counts_matrix <- as.matrix(counts_matrix)
 sce <- SingleCellExperiment(assays = list(counts = counts_matrix))
 counts(sce)
 
-
-############################
-# WORKING WITH THE sce CLASS
-############################
 sce <- computeSumFactors(sce)
 sce <- logNormCounts(sce)
 logcounts(sce)
@@ -41,3 +38,35 @@ sce <- addPerFeatureQC(sce)
 sce[c("gene_1", "gene_4"), ]
 
 sizeFactors(sce)
+
+#########################
+# WORKING WITH REAL DATA
+#########################
+
+sce <- MacoskoRetinaData()
+
+library(scater)
+is.mito <- grepl("^MT-", rownames(sce))
+qcstats <- perCellQCMetrics(sce, subsets=list(Mito=is.mito))
+filtered <- quickPerCellQC(qcstats, percent_subsets="subsets_Mito_percent")
+sce <- sce[, !filtered$discard]
+
+# Normalization.
+sce <- logNormCounts(sce)
+
+# Feature selection.
+library(scran)
+dec <- modelGeneVar(sce)
+hvg <- getTopHVGs(dec, prop=0.1)
+
+# Dimensionality reduction.
+set.seed(1234)
+sce <- runPCA(sce, ncomponents=25, subset_row=hvg)
+sce <- runUMAP(sce, dimred = 'PCA', external_neighbors=TRUE)
+
+# Clustering.
+g <- buildSNNGraph(sce, use.dimred = 'PCA')
+sce$clusters <- factor(igraph::cluster_louvain(g)$membership)
+
+# Visualization.
+plotUMAP(sce, colour_by="clusters")
