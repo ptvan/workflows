@@ -211,6 +211,15 @@ legend("bottomleft", c("yes","no", "unknown"), pch=1, col=c("#FF0000FF", "#00FFF
 # ... or just a bare expression set, `eDatnoY`
 plotMDS(eDatnoY, col=rainbow(length(unique(colage)))[as.numeric(colage)])
 
+# alternatively, we can just get the coordinates, merge metadata
+# and use ggplot
+tmp <- plotMDS(eDatnoY)
+mds <- data.frame(tmp$x, tmp$y) 
+mds$age <- anno$age
+
+ggplot(mds, aes(col=age)) +
+  geom_point() +
+  labs(title="MDS, colored by age")
 
 ################################################## 
 # DIFFERENTIALLY-EXPRESSED GENES (D.E.G.) ANALYSIS
