@@ -3,7 +3,9 @@
 # get example FASTA from MAFFT site
 wget https://mafft.cbrc.jp/alignment/software/ex1.txt -O multiDNA.fa
 
-# align sequences using MAFFT, output a .phy file
+# perform a multiple sequence alignment
+
+# using MAFFT, outputting a .phy file
 mafft --thread 8 --reorder --treeout multiDNA.fa > multiDNA.phy
 
 # construct evolutionary tree using IQ-TREE
