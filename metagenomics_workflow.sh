@@ -1,12 +1,13 @@
 #!/usr/bin/bash
 
-# get example FASTA from MAFFT site
-wget https://mafft.cbrc.jp/alignment/software/ex1.txt -O multiDNA.fa
+# get some COVID19 sequences from ViPR
+# https://www.viprbrc.org/brc/home.spg?decorator=corona_ncov
 
 # perform a multiple sequence alignment
 
 # using MAFFT, outputting a .phy file
-mafft --thread 8 --reorder --treeout multiDNA.fa > multiDNA.phy
+mafft --thread 8 --reorder --treeout COVID19multi.fa > COVID19multi.phy
+
 
 # construct evolutionary tree using IQ-TREE
 # IQ-TREE takes either a .cf or .phy file 
