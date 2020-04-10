@@ -18,9 +18,13 @@ clustalw COVID19multi.fa
 
 # looking at multiDNA.phy.iqtree we see that the best model is SYM+R5
 # so on subsequent runs we can specify the model explicitly to save time
+# IQ-TREE output a .iqtree file (report) and .treefile file (NEWICK tree)
 iqtree -nt 8 -s COVID19multi.phy -m HKY+F
 
-# IQ-TREE output a .iqtree file (report) and .treefile file (NEWICK tree)
+# run treetime, which creates a time-resolved tree from the MSA
+# and dates. see phylogenetic_tree_snippets.R for how these files were created
+#
+treetime --tree COVID19multi.nwk --aln COVID19MSA.fa --dates COVID19dates.csv
 
 
 
