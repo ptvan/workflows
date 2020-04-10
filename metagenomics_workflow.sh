@@ -23,7 +23,7 @@ iqtree -nt 8 -s COVID19multi.phy -m HKY+F
 
 # run treetime, which creates a time-resolved tree from the MSA
 # and dates. see phylogenetic_tree_snippets.R for how these files were created
-#
+# note that each run creates a subdir of outputs
 treetime --tree COVID19multi.nwk --aln COVID19MSA.fa --dates COVID19dates.csv
 
 
