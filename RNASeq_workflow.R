@@ -9,6 +9,7 @@ library(stringr)
 library(biomaRt)
 library(org.Hs.eg.db)
 library(topGO)
+library(magrittr)
 
 ##############################################
 # ALIGN READS TO GENOME USING RNASeqPipelineR
@@ -221,6 +222,9 @@ ggplot(mds, aes(col=age)) +
   geom_point() +
   labs(title="MDS, colored by age")
 
+
+
+
 ################################################## 
 # DIFFERENTIALLY-EXPRESSED GENES (D.E.G.) ANALYSIS
 ##################################################
@@ -239,6 +243,28 @@ allOut[[1]] <- topTable(fit2, number=nrow(data_voomed), coef="stimSTIM", sort="P
 allOut[[2]] <- topTable(fit2, number=nrow(data_voomed), coef=grep("school",colnames(fit2)), sort="F")
 
 names(allOut) <- cons
+
+######################################
+#  DIMENSIONAL REDUCTION / CLUSTERING
+######################################
+
+# we could reduce the dimensions of the data down to help with modeling 
+# using WGCNA
+library(WGCNA)
+# filter permissively, FDR < 0.3
+iGenes03 <- topTable(fit2, number=nrow(data_voomed), coef="stimSTIM", sort="P") %>% dplyr::filter(adj.P.Val < 0.3)
+
+exprFDR03 <- vDat$E[iGenes03$gene,]
+# sft <- pickSoftThreshold(t(exprFDR03), powerVector=c(1:20), verbose=5)
+# pwr <- sft$powerEstimate
+modules <- blockwiseModules(t(exprFDR03), power=8, 
+                            networkType="signed", TOMType="signed",
+                            minModuleSize=20, maxBlockSize=600, deepSplit=4,
+                            numericLabels=TRUE,
+                            saveTOMFileBase="TOM-blockwise")
+WGCNAmodules <- modules$colors
+# skip module 0 (genes that don't fit in any module) 
+WGCNAmodules <- WGCNAmodules[WGCNAmodules > 0]
 
 
 ################################################## 
