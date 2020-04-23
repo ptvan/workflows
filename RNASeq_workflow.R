@@ -244,6 +244,19 @@ allOut[[2]] <- topTable(fit2, number=nrow(data_voomed), coef=grep("school",colna
 
 names(allOut) <- cons
 
+############################
+# D.E.G. WITH KINSHIP MATRIX
+############################
+library(coxme)
+
+# create full kinship matrix
+kin 
+
+# model each predictor 
+for (i in 1:nrow(data_voomed)){
+    kin_single <- lmekin(data_voomed[i,] ~ Sample_Group + (1|Sample_Name), 
+       data=data_voomed, varlist=as.matrix(kin))
+}
 ######################################
 #  DIMENSIONAL REDUCTION / CLUSTERING
 ######################################
