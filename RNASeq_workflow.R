@@ -248,9 +248,14 @@ names(allOut) <- cons
 # D.E.G. WITH KINSHIP MATRIX
 ############################
 library(coxme)
+library(kinship2)
+data(sample.ped)
 
-# create full kinship matrix
-kin 
+# using the example kinship matrix from `kinship2`
+pedAll <- pedigree(id = sample.ped$id, dadid = sample.ped$father, momid = sample.ped$mother, 
+                   sex = sample.ped$sex, famid = sample.ped$ped)
+ped2basic <- pedAll["2"]
+kin <- kinship(ped2basic)
 
 # model each predictor 
 for (i in 1:nrow(data_voomed)){
