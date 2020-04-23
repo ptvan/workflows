@@ -10,6 +10,7 @@ library(biomaRt)
 library(org.Hs.eg.db)
 library(topGO)
 library(magrittr)
+library(reshape2)
 
 ##############################################
 # ALIGN READS TO GENOME USING RNASeqPipelineR
@@ -244,9 +245,9 @@ allOut[[2]] <- topTable(fit2, number=nrow(data_voomed), coef=grep("school",colna
 
 names(allOut) <- cons
 
-############################
-# D.E.G. WITH KINSHIP MATRIX
-############################
+######################
+# D.E.G. WITH KINSHIP 
+######################
 library(coxme)
 library(kinship2)
 data(sample.ped)
@@ -257,10 +258,14 @@ pedAll <- pedigree(id = sample.ped$id, dadid = sample.ped$father, momid = sample
 ped2basic <- pedAll["2"]
 kin <- kinship(ped2basic)
 
+counts_k <- matrix(sample(1:1e6, length(genes)*ncol(kin)), nrow=length(genes), ncol=ncol(kin))
+rownames(counts_k) <- genes
+colnames(counts_k) <- colnames(kin)
+
 # model each predictor 
-for (i in 1:nrow(data_voomed)){
-    kin_single <- lmekin(data_voomed[i,] ~ Sample_Group + (1|Sample_Name), 
-       data=data_voomed, varlist=as.matrix(kin))
+for (i in 1:ncol(counts_k)){
+    kin_single <- lmekin(counts_k ~ Sample_Group + (1|Sample_Name), 
+       data=counts_k, varlist=as.matrix(kin))
 }
 ######################################
 #  DIMENSIONAL REDUCTION / CLUSTERING
