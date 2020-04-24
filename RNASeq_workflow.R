@@ -272,8 +272,8 @@ out.mat$genes <- genes
 for (i in 1:ncol(counts_k)){
     gene <- rownames(counts_k)[i]
     
-    fit <- lmekin(counts_k ~ Sample_Group + (1|Sample_Name), 
-       data=counts_k, varlist=as.matrix(kin))
+    fit <- lmekin(counts_k[,i] ~ vaccStatus + (1|ptid), 
+       data=anno, varlist=as.matrix(kin))
     beta <- fit$coefficients$fixed
     nvar <- length(beta)
     nfrail <- nrow(fit$var) - nvar
