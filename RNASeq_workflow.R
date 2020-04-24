@@ -262,11 +262,31 @@ counts_k <- matrix(sample(1:1e6, length(genes)*ncol(kin)), nrow=length(genes), n
 rownames(counts_k) <- genes
 colnames(counts_k) <- colnames(kin)
 
+out.mat <- counts_k[,c(1,2)]
+rownames(out.mat) <- genes
+colnames(out.mat) <- c("pval","sigma")
+out.mat$genes <- genes
+
 # model each predictor 
+# thanks to Kim Dill-McFarland for original code on methylation data
 for (i in 1:ncol(counts_k)){
-    kin_single <- lmekin(counts_k ~ Sample_Group + (1|Sample_Name), 
+    gene <- rownames(counts_k)[i]
+    fit <- lmekin(counts_k ~ Sample_Group + (1|Sample_Name), 
        data=counts_k, varlist=as.matrix(kin))
+    
+    # get fit results 
+    beta <- fit$coefficients$fixed
+    nvar <- length(beta)
+    nfrail <- nrow(fit$var) - nvar
+    se <- sqrt(diag(fit1$var)[nfrail + 1:nvar])
+    p.kin <- signif(1 - pchisq((beta/se)^2, 1), 2)[2]
+    sigma.kin <- fit$sigma
+    
+    out.mat[gene,]$pval <- p.kin
+    out.mat[gene,]$sigma <- sigma.kin
 }
+
+
 ######################################
 #  DIMENSIONAL REDUCTION / CLUSTERING
 ######################################
