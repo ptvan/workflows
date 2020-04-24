@@ -271,10 +271,9 @@ out.mat$genes <- genes
 # thanks to Kim Dill-McFarland for original code on methylation data
 for (i in 1:ncol(counts_k)){
     gene <- rownames(counts_k)[i]
+    
     fit <- lmekin(counts_k ~ Sample_Group + (1|Sample_Name), 
        data=counts_k, varlist=as.matrix(kin))
-    
-    # get fit results 
     beta <- fit$coefficients$fixed
     nvar <- length(beta)
     nfrail <- nrow(fit$var) - nvar
@@ -285,6 +284,8 @@ for (i in 1:ncol(counts_k)){
     out.mat[gene,]$pval <- p.kin
     out.mat[gene,]$sigma <- sigma.kin
 }
+# add Benjamini-Hochberg FDR to make results comparable to limma
+out.mat$FDR <- p.adjust(out.mat$pval, method="BH")
 
 
 ######################################
