@@ -252,12 +252,14 @@ library(coxme)
 library(kinship2)
 data(sample.ped)
 
-# using the example kinship matrix from `kinship2`
+# using an example kinship matrix from `kinship2`
 pedAll <- pedigree(id = sample.ped$id, dadid = sample.ped$father, momid = sample.ped$mother, 
                    sex = sample.ped$sex, famid = sample.ped$ped)
 ped2basic <- pedAll["2"]
 kin <- kinship(ped2basic)
 
+# make up corresponding counts data for the subjects in the pedigree
+# modeling voomed data would make more sense
 counts_k <- matrix(sample(1:1e6, length(genes)*ncol(kin)), nrow=length(genes), ncol=ncol(kin))
 rownames(counts_k) <- genes
 colnames(counts_k) <- colnames(kin)
@@ -267,7 +269,7 @@ rownames(out.mat) <- genes
 colnames(out.mat) <- c("pval","sigma")
 out.mat$genes <- genes
 
-# model each predictor 
+# model each predictor in naive loop, for production this should be parallelized
 # thanks to Kim Dill-McFarland for original code on methylation data
 for (i in 1:ncol(counts_k)){
     gene <- rownames(counts_k)[i]
