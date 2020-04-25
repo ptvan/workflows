@@ -264,6 +264,10 @@ counts_k <- matrix(sample(1:1e6, length(genes)*ncol(kin)), nrow=length(genes), n
 rownames(counts_k) <- genes
 colnames(counts_k) <- colnames(kin)
 
+# make up corresponding metadata
+anno_k <- data.frame(cbind(colnames(kin), c(rep("Y",7),rep("N",7))))
+colnames(anno_k) <- c("ptid", "vaccStatus")
+
 out.mat <- counts_k[,c(1,2)]
 rownames(out.mat) <- genes
 colnames(out.mat) <- c("pval","sigma")
@@ -274,8 +278,8 @@ out.mat$genes <- genes
 for (i in 1:ncol(counts_k)){
     gene <- rownames(counts_k)[i]
     
-    fit <- lmekin(counts_k[,i] ~ vaccStatus + (1|ptid), 
-       data=anno, varlist=as.matrix(kin))
+    fit <- lmekin(counts_k[i,] ~ vaccStatus + (1|ptid), 
+       data=anno_k, varlist=as.matrix(kin))
     beta <- fit$coefficients$fixed
     nvar <- length(beta)
     nfrail <- nrow(fit$var) - nvar
