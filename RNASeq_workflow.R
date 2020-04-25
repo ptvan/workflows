@@ -268,10 +268,10 @@ colnames(counts_k) <- colnames(kin)
 anno_k <- data.frame(cbind(colnames(kin), c(rep("Y",7),rep("N",7))))
 colnames(anno_k) <- c("ptid", "vaccStatus")
 
-out.mat <- counts_k[,c(1,2)]
+out.mat <- data.frame(counts_k[,c(1,2)])
 rownames(out.mat) <- genes
 colnames(out.mat) <- c("pval","sigma")
-out.mat$genes <- genes
+out.mat[,"gene"] <- genes
 
 # model each predictor in naive loop, for production this should be parallelized
 # thanks to Kim Dill-McFarland for original code on methylation data
