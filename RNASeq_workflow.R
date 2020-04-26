@@ -206,15 +206,16 @@ eDatnoY <- ExpressionSet(assayData=as.matrix(counts[!rownames(counts) %in% chrYg
 ###############################
 
 # ... and see how the data separates without sex genes
-# plotMDS can either take a voom-transformed structure like `vDatnoY` below...
+# plotMDS can either take a voom-transformed structure like `vDatnoY`
 plotMDS(vDatnoY, col=rainbow(length(unique(colvac)))[as.numeric(colvac)],  main="Vaccinaition status, chrY genes removed", pch=1)
 legend("bottomleft", c("yes","no", "unknown"), pch=1, col=c("#FF0000FF", "#00FFFFFF", "#0000FFFF"))
 
 # ... or just a bare expression set, `eDatnoY`
+# either way, we have to supply a vector of colors for each covariate we're facetting  
 plotMDS(eDatnoY, col=rainbow(length(unique(colage)))[as.numeric(colage)])
 
-# alternatively, we can just get the coordinates, merge metadata
-# and use ggplot
+# alternatively, we can just get the coordinates, merge metadata and use ggplot
+# which also avoids rerunning plotMDS multiple times
 tmp <- plotMDS(eDatnoY)
 mds <- data.frame(tmp$x, tmp$y) 
 mds$age <- anno$age
@@ -248,6 +249,9 @@ names(allOut) <- cons
 ######################
 # D.E.G. WITH KINSHIP 
 ######################
+# we can fit a familyID covariate using limma, which may not show any DEGs
+# alternatively, can explicitly model kinship with a pairwise matrix if available
+
 library(coxme)
 library(kinship2)
 data(sample.ped)
