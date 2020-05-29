@@ -1,0 +1,1 @@
+bamCoverage -b reads.bam -o coverage.bw
