@@ -1,3 +1,6 @@
+# eliminate identical entries from a BED file
+sort -k1,1 -k2,2n input.bed | rev | uniq -f1 | rev
+
 # create coverage (in the form of a bigWig/bedGraph) file from a BAM file
 bamCoverage -b reads.bam -o coverage.bw --numberOfProcessors 8
 

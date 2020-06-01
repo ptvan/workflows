@@ -19,7 +19,7 @@ devtools::install_github("RGLab/RNASeqPipelineR")
 library(RNASeqPipelineR)
 library(parallel)
 
-PREFIX<-"/home/pvan/data/"
+PREFIX <- "/home/pvan/data/"
 
 createProject(project_name = "RNASeq_demo" ,path = PREFIX, load_from_immport = FALSE)
 loadProject(project_dir=PREFIX, name="RNASeq_demo")
