@@ -10,7 +10,7 @@ library(scater)
 library(scran)
 library(uwot)
 library(Rtsne)
-library(scRNASeq)
+library(scRNAseq)
         
 #################################################
 # GENERATE DUMMY DATA TO WORK WITH THE sce CLASS
