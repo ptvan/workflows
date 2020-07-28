@@ -3,8 +3,9 @@
 # formally published in https://www.nature.com/articles/s41592-019-0654-x)
 
 library(BiocManager)
-install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq"))
+# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq"))
 
+library(BiocFileCache)
 library(SingleCellExperiment)
 library(scater)
 library(scran)
@@ -39,9 +40,9 @@ sce[c("gene_1", "gene_4"), ]
 
 sizeFactors(sce)
 
-#########################
-# WORKING WITH REAL DATA
-#########################
+######################################
+# MOUSE DATA FROM Macosko et al 2016
+######################################
 
 sce <- MacoskoRetinaData()
 
@@ -70,3 +71,5 @@ sce$clusters <- factor(igraph::cluster_louvain(g)$membership)
 
 # Visualization.
 plotUMAP(sce, colour_by="clusters")
+
+# Detect marker genes
