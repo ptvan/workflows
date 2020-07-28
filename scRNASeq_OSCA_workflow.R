@@ -3,7 +3,7 @@
 # formally published in https://www.nature.com/articles/s41592-019-0654-x)
 
 library(BiocManager)
-# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq"))
+# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils))
 
 library(BiocFileCache)
 library(SingleCellExperiment)
@@ -12,6 +12,7 @@ library(scran)
 library(uwot)
 library(Rtsne)
 library(scRNAseq)
+library(DropletUtils)
         
 #################################################
 # GENERATE DUMMY DATA TO WORK WITH THE sce CLASS
@@ -72,4 +73,3 @@ sce$clusters <- factor(igraph::cluster_louvain(g)$membership)
 # Visualization.
 plotUMAP(sce, colour_by="clusters")
 
-# Detect marker genes
