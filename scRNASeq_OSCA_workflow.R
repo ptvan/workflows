@@ -117,3 +117,8 @@ top.pbmc <- getTopHVGs(dec.pbmc, prop=0.1)
 sce.pbmc <- denoisePCA(sce.pbmc, subset.row=top.pbmc, technical=dec.pbmc)
 sce.pbmc <- runTSNE(sce.pbmc, dimred="PCA")
 sce.pbmc <- runUMAP(sce.pbmc, dimred="PCA")
+
+# clustering
+g <- buildSNNGraph(sce.pbmc, k=10, use.dimred = 'PCA')
+clust <- igraph::cluster_walktrap(g)$membership
+colLabels(sce.pbmc) <- factor(clust)
