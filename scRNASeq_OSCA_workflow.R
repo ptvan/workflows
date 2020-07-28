@@ -98,3 +98,8 @@ location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID,
 set.seed(100)
 e.out <- emptyDrops(counts(sce.pbmc))
 sce.pbmc <- sce.pbmc[,which(e.out$FDR <= 0.001)]
+
+# QC
+stats <- perCellQCMetrics(sce.pbmc, subsets=list(Mito=which(location=="MT")))
+high.mito <- isOutlier(stats$subsets_Mito_percent, type="higher")
+sce.pbmc <- sce.pbmc[,!high.mito]
