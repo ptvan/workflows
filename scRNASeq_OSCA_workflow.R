@@ -55,20 +55,20 @@ qcstats <- perCellQCMetrics(sce, subsets=list(Mito=is.mito))
 filtered <- quickPerCellQC(qcstats, percent_subsets="subsets_Mito_percent")
 sce <- sce[, !filtered$discard]
 
-# Normalization.
+# normalization.
 sce <- logNormCounts(sce)
 
-# Feature selection.
+# feature selection.
 library(scran)
 dec <- modelGeneVar(sce)
 hvg <- getTopHVGs(dec, prop=0.1)
 
-# Dimensionality reduction.
+# dimensionality reduction.
 set.seed(1234)
 sce <- runPCA(sce, ncomponents=25, subset_row=hvg)
 sce <- runUMAP(sce, dimred = 'PCA', external_neighbors=TRUE)
 
-# Clustering.
+# clustering.
 g <- buildSNNGraph(sce, use.dimred = 'PCA')
 sce$clusters <- factor(igraph::cluster_louvain(g)$membership)
 
@@ -108,3 +108,7 @@ sce.pbmc <- sce.pbmc[,!high.mito]
 clusters <- quickCluster(sce.pbmc)
 sce.pbmc <- computeSumFactors(sce.pbmc, cluster=clusters)
 sce.pbmc <- logNormCounts(sce.pbmc)
+
+# model variance
+dec.pbmc <- modelGeneVarByPoisson(sce.pbmc)
+top.pbmc <- getTopHVGs(dec.pbmc, prop=0.1)
