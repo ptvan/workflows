@@ -112,3 +112,8 @@ sce.pbmc <- logNormCounts(sce.pbmc)
 # model variance
 dec.pbmc <- modelGeneVarByPoisson(sce.pbmc)
 top.pbmc <- getTopHVGs(dec.pbmc, prop=0.1)
+
+# dimensional reduction
+sce.pbmc <- denoisePCA(sce.pbmc, subset.row=top.pbmc, technical=dec.pbmc)
+sce.pbmc <- runTSNE(sce.pbmc, dimred="PCA")
+sce.pbmc <- runUMAP(sce.pbmc, dimred="PCA")
