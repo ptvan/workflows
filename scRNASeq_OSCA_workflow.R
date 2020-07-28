@@ -3,7 +3,7 @@
 # formally published in https://www.nature.com/articles/s41592-019-0654-x)
 
 library(BiocManager)
-# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils))
+# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils", "EnsDb.Hsapiens.v86"))
 
 library(BiocFileCache)
 library(SingleCellExperiment)
@@ -13,6 +13,8 @@ library(uwot)
 library(Rtsne)
 library(scRNAseq)
 library(DropletUtils)
+library(EnsDb.Hsapiens.v86)
+
         
 #################################################
 # GENERATE DUMMY DATA TO WORK WITH THE sce CLASS
@@ -73,3 +75,26 @@ sce$clusters <- factor(igraph::cluster_louvain(g)$membership)
 # Visualization.
 plotUMAP(sce, colour_by="clusters")
 
+
+########################
+# 4K PMBC DATA FROM 10X 
+########################
+# load data
+bfc <- BiocFileCache("raw_data", ask = FALSE)
+raw.path <- bfcrpath(bfc, file.path("http://cf.10xgenomics.com/samples",
+                                    "cell-exp/2.1.0/pbmc4k/pbmc4k_raw_gene_bc_matrices.tar.gz"))
+untar(raw.path, exdir=file.path(tempdir(), "pbmc4k"))
+fname <- file.path(tempdir(), "pbmc4k/raw_gene_bc_matrices/GRCh38")
+sce.pbmc <- read10xCounts(fname, col.names=TRUE)
+
+# gene annotation
+rownames(sce.pbmc) <- uniquifyFeatureNames(
+  rowData(sce.pbmc)$ID, rowData(sce.pbmc)$Symbol)
+
+location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID, 
+                   column="SEQNAME", keytype="GENEID")
+
+# cell detection
+set.seed(100)
+e.out <- emptyDrops(counts(sce.pbmc))
+sce.pbmc <- sce.pbmc[,which(e.out$FDR <= 0.001)]
