@@ -103,3 +103,8 @@ sce.pbmc <- sce.pbmc[,which(e.out$FDR <= 0.001)]
 stats <- perCellQCMetrics(sce.pbmc, subsets=list(Mito=which(location=="MT")))
 high.mito <- isOutlier(stats$subsets_Mito_percent, type="higher")
 sce.pbmc <- sce.pbmc[,!high.mito]
+
+# normalization
+clusters <- quickCluster(sce.pbmc)
+sce.pbmc <- computeSumFactors(sce.pbmc, cluster=clusters)
+sce.pbmc <- logNormCounts(sce.pbmc)
