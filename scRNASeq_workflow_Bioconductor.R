@@ -145,4 +145,15 @@ markers.pbmc.up3 <- findMarkers(sce.pbmc, pval.type="all", direction="up")
 cluster9.specific <- markers.pbmc.up3[["9"]]
 colnames(cluster9.specific) # no "Top" column
 
+## using Wilcoxon-Mann-Whitney (WMW) test
+markers.pbmc.wmw <- findMarkers(sce.pbmc, test="wilcox", direction="up")
 
+# this testing regime returns FDR and AUCs, so we need to change getMarkerEffects() accordingly:
+colnames(markers.pbmc.wmw[[9]])
+cluster9.wmw <- markers.pbmc.wmw[[9]]
+cluster9.wmw.best <- cluster9.wmw[cluster9.wmw$Top <= 5,]
+AUCs <- getMarkerEffects(best.set, prefix="AUC")
+
+# similarly plotting a heatmap of AUCs...
+pheatmap(AUCs, breaks=seq(0, 1, length.out=21),
+         color=viridis::viridis(21))
