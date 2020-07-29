@@ -124,5 +124,9 @@ clust <- igraph::cluster_walktrap(g)$membership
 colLabels(sce.pbmc) <- factor(clust)
 
 ### find markers
-# using t-test, matching the cluster labels stored in the SCE object
+## using t-test, matching the cluster labels stored in the SCE object (k = 18 in this case)
 markers.pbmc <- findMarkers(sce.pbmc, test.type="t", groups=colLabels(sce.pbmc))
+
+# explore one of the clusters
+rownames(markers.pbmc[[1]])
+cluster9 <- markers.pbmc[["9"]]
