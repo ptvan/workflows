@@ -131,10 +131,18 @@ markers.pbmc <- findMarkers(sce.pbmc, test.type="t", groups=colLabels(sce.pbmc))
 # explore one of the clusters
 rownames(markers.pbmc[[1]])
 cluster9 <- markers.pbmc[["9"]]
+colnames(cluster9.best)
+
+# using Top to filter
 cluster9.best <- cluster9[cluster9$Top <=5, ]
+
+# create a heatmap of logFCs
 cluster9.best.logFCs <- getMarkerEffects(cluster9.best)
 pheatmap(cluster9.best.logFCs, breaks=seq(-5, 5, length.out=101))
 
 # finding instead cluster-specific markers
 markers.pbmc.up3 <- findMarkers(sce.pbmc, pval.type="all", direction="up")
 cluster9.specific <- markers.pbmc.up3[["9"]]
+colnames(cluster9.specific) # no "Top" column
+
+
