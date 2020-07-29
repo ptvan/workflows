@@ -14,6 +14,7 @@ library(Rtsne)
 library(scRNAseq)
 library(DropletUtils)
 library(EnsDb.Hsapiens.v86)
+library(pheatmap)
 
         
 #################################################
@@ -130,3 +131,6 @@ markers.pbmc <- findMarkers(sce.pbmc, test.type="t", groups=colLabels(sce.pbmc))
 # explore one of the clusters
 rownames(markers.pbmc[[1]])
 cluster9 <- markers.pbmc[["9"]]
+cluster9.best <- cluster9[cluster9$Top <=5, ]
+cluster9.best.logFCs <- getMarkerEffects(cluster9.best)
+pheatmap(cluster9.best.logFCs, breaks=seq(-5, 5, length.out=101))
