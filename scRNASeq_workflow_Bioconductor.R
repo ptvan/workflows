@@ -124,7 +124,7 @@ g <- buildSNNGraph(sce.pbmc, k=10, use.dimred = 'PCA')
 clust <- igraph::cluster_walktrap(g)$membership
 colLabels(sce.pbmc) <- factor(clust)
 
-### find markers
+### find markers / DEGs
 ## using t-test, matching the cluster labels stored in the SCE object (k = 18 in this case)
 markers.pbmc <- findMarkers(sce.pbmc, test.type="t", groups=colLabels(sce.pbmc))
 
@@ -134,3 +134,7 @@ cluster9 <- markers.pbmc[["9"]]
 cluster9.best <- cluster9[cluster9$Top <=5, ]
 cluster9.best.logFCs <- getMarkerEffects(cluster9.best)
 pheatmap(cluster9.best.logFCs, breaks=seq(-5, 5, length.out=101))
+
+# finding instead cluster-specific markers
+markers.pbmc.up3 <- findMarkers(sce.pbmc, pval.type="all", direction="up")
+cluster9.specific <- markers.pbmc.up3[["9"]]
