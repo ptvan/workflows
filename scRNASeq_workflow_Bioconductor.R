@@ -55,31 +55,31 @@ qcstats <- perCellQCMetrics(sce, subsets=list(Mito=is.mito))
 filtered <- quickPerCellQC(qcstats, percent_subsets="subsets_Mito_percent")
 sce <- sce[, !filtered$discard]
 
-# normalization.
+### normalization.
 sce <- logNormCounts(sce)
 
-# feature selection.
+### feature selection.
 library(scran)
 dec <- modelGeneVar(sce)
 hvg <- getTopHVGs(dec, prop=0.1)
 
-# dimensionality reduction.
+### dimensionality reduction.
 set.seed(1234)
 sce <- runPCA(sce, ncomponents=25, subset_row=hvg)
 sce <- runUMAP(sce, dimred = 'PCA', external_neighbors=TRUE)
 
-# clustering.
+### clustering.
 g <- buildSNNGraph(sce, use.dimred = 'PCA')
 sce$clusters <- factor(igraph::cluster_louvain(g)$membership)
 
-# Visualization.
+### visualization.
 plotUMAP(sce, colour_by="clusters")
 
 
 ########################
 # 4K PMBC DATA FROM 10X 
 ########################
-# load data
+### load data
 bfc <- BiocFileCache("raw_data", ask = FALSE)
 raw.path <- bfcrpath(bfc, file.path("http://cf.10xgenomics.com/samples",
                                     "cell-exp/2.1.0/pbmc4k/pbmc4k_raw_gene_bc_matrices.tar.gz"))
@@ -87,38 +87,41 @@ untar(raw.path, exdir=file.path(tempdir(), "pbmc4k"))
 fname <- file.path(tempdir(), "pbmc4k/raw_gene_bc_matrices/GRCh38")
 sce.pbmc <- read10xCounts(fname, col.names=TRUE)
 
-# gene annotation
+### gene annotation
 rownames(sce.pbmc) <- uniquifyFeatureNames(
   rowData(sce.pbmc)$ID, rowData(sce.pbmc)$Symbol)
 
 location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID, 
                    column="SEQNAME", keytype="GENEID")
 
-# cell detection
+### cell detection
 set.seed(100)
 e.out <- emptyDrops(counts(sce.pbmc))
 sce.pbmc <- sce.pbmc[,which(e.out$FDR <= 0.001)]
 
-# QC
+### QC
 stats <- perCellQCMetrics(sce.pbmc, subsets=list(Mito=which(location=="MT")))
 high.mito <- isOutlier(stats$subsets_Mito_percent, type="higher")
 sce.pbmc <- sce.pbmc[,!high.mito]
 
-# normalization
+### normalization
 clusters <- quickCluster(sce.pbmc)
 sce.pbmc <- computeSumFactors(sce.pbmc, cluster=clusters)
 sce.pbmc <- logNormCounts(sce.pbmc)
 
-# model variance
+### model variance
 dec.pbmc <- modelGeneVarByPoisson(sce.pbmc)
 top.pbmc <- getTopHVGs(dec.pbmc, prop=0.1)
 
-# dimensional reduction
+### dimensional reduction
 sce.pbmc <- denoisePCA(sce.pbmc, subset.row=top.pbmc, technical=dec.pbmc)
 sce.pbmc <- runTSNE(sce.pbmc, dimred="PCA")
 sce.pbmc <- runUMAP(sce.pbmc, dimred="PCA")
 
-# clustering
+### clustering
 g <- buildSNNGraph(sce.pbmc, k=10, use.dimred = 'PCA')
 clust <- igraph::cluster_walktrap(g)$membership
 colLabels(sce.pbmc) <- factor(clust)
+
+### find markers
+markers.pbmc <- findMarkers(sce.pbmc)
