@@ -80,6 +80,7 @@ plotUMAP(sce, colour_by="clusters")
 ########################
 # 4K PMBC DATA FROM 10X 
 ########################
+set.seed(100)
 ### load data
 bfc <- BiocFileCache("raw_data", ask = FALSE)
 raw.path <- bfcrpath(bfc, file.path("http://cf.10xgenomics.com/samples",
@@ -94,9 +95,13 @@ rownames(sce.pbmc) <- uniquifyFeatureNames(
 
 location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID, 
                    column="SEQNAME", keytype="GENEID")
+### doublet detection
+# by clustering
+dbl.out <- doubletCluster(sce.pbmc)
+
+
 
 ### cell detection
-set.seed(100)
 e.out <- emptyDrops(counts(sce.pbmc))
 sce.pbmc <- sce.pbmc[,which(e.out$FDR <= 0.001)]
 
