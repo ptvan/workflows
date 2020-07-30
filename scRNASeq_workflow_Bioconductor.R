@@ -95,11 +95,13 @@ rownames(sce.pbmc) <- uniquifyFeatureNames(
 
 location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID, 
                    column="SEQNAME", keytype="GENEID")
+
 ### doublet detection
 # by clustering
-dbl.out <- doubletCluster(sce.pbmc)
+dbl.cls <- doubletCluster(sce.pbmc)
 
-
+# by simulation
+dbl.dens <- doubletCells(sce.pbmc, d=ncol(reducedDim(sce.pbmc)))
 
 ### cell detection
 e.out <- emptyDrops(counts(sce.pbmc))
