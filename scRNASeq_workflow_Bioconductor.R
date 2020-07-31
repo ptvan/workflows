@@ -3,7 +3,7 @@
 # formally published in https://www.nature.com/articles/s41592-019-0654-x)
 
 library(BiocManager)
-# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils", "EnsDb.Hsapiens.v86", "SingleR"))
+# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils", "EnsDb.Hsapiens.v86", "org.Mm.eg.db", "SingleR"))
 
 library(BiocFileCache)
 library(SingleCellExperiment)
@@ -15,6 +15,7 @@ library(scRNAseq)
 library(SingleR)
 library(DropletUtils)
 library(EnsDb.Hsapiens.v86)
+library(org.Mm.eg.db)
 library(pheatmap)
 
         
@@ -170,6 +171,7 @@ pheatmap(AUCs, breaks=seq(0, 1, length.out=21),
          color=viridis::viridis(21))
 
 ### cell type annotation
+## assign cell labels using a reference
 ref <- BlueprintEncodeData()
 pred <- SingleR(test=sce.pbmc, ref=ref, labels=ref$label.main)
 
@@ -184,3 +186,23 @@ plotScoreDistribution(pred)
 # comparing assignments with cluster numbers, adding 10 to avoid strong color jumps with just 1 cell
 tab <- table(Assigned=pred$pruned.labels, Cluster=colLabels(sce.pbmc))
 pheatmap(log2(tab+10), color=colorRampPalette(c("white", "blue"))(101))
+
+## assign cell labels using genesets
+# load, QC and normalize the Zeisel brain data
+sce.zeisel <- ZeiselBrainData()
+sce.zeisel <- aggregateAcrossFeatures(sce.zeisel, 
+                                      id=sub("_loc[0-9]+$", "", rownames(sce.zeisel)))
+rowData(sce.zeisel)$Ensembl <- mapIds(org.Mm.eg.db, 
+                                      keys=rownames(sce.zeisel), keytype="SYMBOL", column="ENSEMBL")
+stats <- perCellQCMetrics(sce.zeisel
+                          , subsets=list(Mt=rowData(sce.zeisel)$featureType=="mito"))
+qc <- quickPerCellQC(stats, percent_subsets=c("altexps_ERCC_percent", 
+                                              "subsets_Mt_percent"))
+sce.zeisel <- sce.zeisel[,!qc$discard]
+clusters <- quickCluster(sce.zeisel)
+sce.zeisel <- computeSumFactors(sce.zeisel, cluster=clusters) 
+sce.zeisel <- logNormCounts(sce.zeisel)
+wilcox.z <- pairwiseWilcox(sce.zeisel, sce.zeisel$level1class, 
+                           lfc=1, direction="up")
+markers.z <- getTopMarkers(wilcox.z$statistics, wilcox.z$pairs,
+                           pairwise=FALSE, n=50)
