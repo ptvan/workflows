@@ -172,3 +172,11 @@ pheatmap(AUCs, breaks=seq(0, 1, length.out=21),
 ### cell type annotation
 ref <- BlueprintEncodeData()
 pred <- SingleR(test=sce.pbmc, ref=ref, labels=ref$label.main)
+
+# seeing annotated cell types
+table(pred$labels)
+plotScoreHeatmap(pred)
+
+# checking for low quality assignments
+sum(is.na(pred$pruned.labels))
+plotScoreDistribution(pred)
