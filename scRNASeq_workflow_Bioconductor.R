@@ -170,3 +170,5 @@ pheatmap(AUCs, breaks=seq(0, 1, length.out=21),
          color=viridis::viridis(21))
 
 ### cell type annotation
+ref <- BlueprintEncodeData()
+pred <- SingleR(test=sce.pbmc, ref=ref, labels=ref$label.main)
