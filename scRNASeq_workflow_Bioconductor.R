@@ -97,11 +97,13 @@ location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID,
                    column="SEQNAME", keytype="GENEID")
 
 ### doublet detection
-# by clustering
+## by clustering
 dbl.cls <- doubletCluster(sce.pbmc)
 
-# by simulation
+## by simulation
 dbl.dens <- doubletCells(sce.pbmc, d=ncol(reducedDim(sce.pbmc)))
+sce.pbmc$DoubletScore <- log10(dbl.dens+1)
+plotTSNE(sce.pbmc, colour_by="DoubletScore")
 
 ### cell detection
 e.out <- emptyDrops(counts(sce.pbmc))
