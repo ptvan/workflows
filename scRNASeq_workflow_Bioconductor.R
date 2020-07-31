@@ -3,7 +3,7 @@
 # formally published in https://www.nature.com/articles/s41592-019-0654-x)
 
 library(BiocManager)
-# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils", "EnsDb.Hsapiens.v86"))
+# install(c("SingleCellExperiment","scater","scran","uwot","Rtnse", "scRNASeq","DropletUtils", "EnsDb.Hsapiens.v86", "SingleR"))
 
 library(BiocFileCache)
 library(SingleCellExperiment)
@@ -12,6 +12,7 @@ library(scran)
 library(uwot)
 library(Rtsne)
 library(scRNAseq)
+library(SingleR)
 library(DropletUtils)
 library(EnsDb.Hsapiens.v86)
 library(pheatmap)
@@ -167,3 +168,5 @@ AUCs <- getMarkerEffects(best.set, prefix="AUC")
 # similarly plotting a heatmap of AUCs...
 pheatmap(AUCs, breaks=seq(0, 1, length.out=21),
          color=viridis::viridis(21))
+
+### cell type annotation
