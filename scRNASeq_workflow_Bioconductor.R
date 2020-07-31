@@ -104,6 +104,7 @@ dbl.cls <- doubletCluster(sce.pbmc)
 dbl.dens <- doubletCells(sce.pbmc, d=ncol(reducedDim(sce.pbmc)))
 sce.pbmc$DoubletScore <- log10(dbl.dens+1)
 plotTSNE(sce.pbmc, colour_by="DoubletScore")
+plotColData(sce.pbmc, x="label", y="DoubletScore", colour_by="label")
 
 ### cell detection
 e.out <- emptyDrops(counts(sce.pbmc))
