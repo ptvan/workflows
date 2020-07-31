@@ -180,3 +180,7 @@ plotScoreHeatmap(pred)
 # checking for low quality assignments
 sum(is.na(pred$pruned.labels))
 plotScoreDistribution(pred)
+
+# comparing assignments with cluster numbers, adding 10 to avoid strong color jumps with just 1 cell
+tab <- table(Assigned=pred$pruned.labels, Cluster=colLabels(sce.pbmc))
+pheatmap(log2(tab+10), color=colorRampPalette(c("white", "blue"))(101))
