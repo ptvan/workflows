@@ -11,6 +11,7 @@ library(org.Hs.eg.db)
 library(topGO)
 library(magrittr)
 library(reshape2)
+library(sva)
 
 ##############################################
 # ALIGN READS TO GENOME USING RNASeqPipelineR
@@ -98,11 +99,11 @@ anno$school <- factor(rep(c("Springfield","Hogwarts","Xavier","Xavier","Springfi
 anno <- anno[order(anno$sample),] 
 counts <- counts[,order(colnames(counts))] 
 
-# for coloring MDS plots later
-colvac <- anno$vaccStatus
+# for coloring MDS plots later, cut() will discretize and create factors for us
 
-# cut() will discretize and create factors for us
-colage <- cut(anno$age, breaks=c(0,10,30,60), laels=c("children","teens","middleage", "elderly"))
+colage <- cut(anno$age
+              , breaks=c(0,10,30,60), laels=c("children","teens","middleage", "elderly"))
+
 
 ##############################
 # MODEL MATRIX & NORMALIZATION
@@ -225,6 +226,13 @@ ggplot(mds, aes(col=age)) +
   labs(title="MDS, colored by age")
 
 
+###############################
+#  BATCH EFFECT ADJUSTMENT
+###############################
+# using ComBat-Seq
+
+batch <-  c(rep(1, 50), rep(2,50))
+counts_adjusted <- ComBat_seq(counts, batch=batch, group=NULL)
 
 
 ################################################## 
