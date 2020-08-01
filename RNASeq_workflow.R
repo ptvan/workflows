@@ -12,6 +12,7 @@ library(topGO)
 library(magrittr)
 library(reshape2)
 library(sva)
+library(scBatch)
 
 ##############################################
 # ALIGN READS TO GENOME USING RNASeqPipelineR
@@ -230,10 +231,10 @@ ggplot(mds, aes(col=age)) +
 #  BATCH EFFECT ADJUSTMENT
 ###############################
 # using ComBat-Seq
-
 batch <-  c(rep(1, 50), rep(2,50))
 counts_adjusted <- ComBat_seq(counts, batch=batch, group=NULL)
 
+# using scBatch
 
 ################################################## 
 # DIFFERENTIALLY-EXPRESSED GENES (D.E.G.) ANALYSIS
