@@ -234,7 +234,14 @@ ggplot(mds, aes(col=age)) +
 batch <-  c(rep(1, 50), rep(2,50))
 counts_adjusted <- ComBat_seq(counts, batch=batch, group=NULL)
 
-# using scBatch
+# alternatively, using scBatch
+counts_adjusted <- QuantNorm(counts
+                             , batches
+                             , method='row/column'
+                             , cor_method='pearson'
+                             , logdat=F
+                             , standardize = T
+                             ,tol=1e-4)
 
 ################################################## 
 # DIFFERENTIALLY-EXPRESSED GENES (D.E.G.) ANALYSIS
