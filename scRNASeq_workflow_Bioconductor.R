@@ -206,3 +206,11 @@ wilcox.z <- pairwiseWilcox(sce.zeisel, sce.zeisel$level1class,
                            lfc=1, direction="up")
 markers.z <- getTopMarkers(wilcox.z$statistics, wilcox.z$pairs,
                            pairwise=FALSE, n=50)
+
+### Analyzing T-Cell Receptor (TCR) repertoire
+## read in TCR data
+bfc <- BiocFileCache(ask=FALSE)
+tcr.data <- bfcrpath(bfc, file.path(
+  "http://cf.10xgenomics.com/samples/cell-vdj/3.1.0",
+  "vdj_v1_hs_pbmc3/vdj_v1_hs_pbmc3_t_filtered_contig_annotations.csv"))
+tcr <- read.csv(tcr.data, stringsAsFactors=FALSE)
