@@ -214,3 +214,7 @@ tcr.data <- bfcrpath(bfc, file.path(
   "http://cf.10xgenomics.com/samples/cell-vdj/3.1.0",
   "vdj_v1_hs_pbmc3/vdj_v1_hs_pbmc3_t_filtered_contig_annotations.csv"))
 tcr <- read.csv(tcr.data, stringsAsFactors=FALSE)
+
+# merge with PBMC SCE
+tra <- tcr[tcr$chain=="TRA",]
+sce.pbmc$TRA <- split(data.frame(tra), factor(tra$barcode, sce.pbmc$Barcode))
