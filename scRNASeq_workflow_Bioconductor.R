@@ -98,16 +98,6 @@ rownames(sce.pbmc) <- uniquifyFeatureNames(
 location <- mapIds(EnsDb.Hsapiens.v86, keys=rowData(sce.pbmc)$ID, 
                    column="SEQNAME", keytype="GENEID")
 
-### doublet detection
-## by clustering
-dbl.cls <- doubletCluster(sce.pbmc)
-
-## by simulation
-dbl.dens <- doubletCells(sce.pbmc, d=ncol(reducedDim(sce.pbmc)))
-sce.pbmc$DoubletScore <- log10(dbl.dens+1)
-plotTSNE(sce.pbmc, colour_by="DoubletScore")
-plotColData(sce.pbmc, x="label", y="DoubletScore", colour_by="label")
-
 ### cell detection
 e.out <- emptyDrops(counts(sce.pbmc))
 sce.pbmc <- sce.pbmc[,which(e.out$FDR <= 0.001)]
@@ -135,6 +125,16 @@ sce.pbmc <- runUMAP(sce.pbmc, dimred="PCA")
 g <- buildSNNGraph(sce.pbmc, k=10, use.dimred = 'PCA')
 clust <- igraph::cluster_walktrap(g)$membership
 colLabels(sce.pbmc) <- factor(clust)
+
+### doublet detection (NOTE: requires colLabels !!!)
+## by clustering
+dbl.cls <- doubletCluster(sce.pbmc)
+
+## by simulation
+dbl.dens <- doubletCells(sce.pbmc, d=ncol(reducedDim(sce.pbmc)))
+sce.pbmc$DoubletScore <- log10(dbl.dens+1)
+plotTSNE(sce.pbmc, colour_by="DoubletScore")
+plotColData(sce.pbmc, x="label", y="DoubletScore", colour_by="label")
 
 ### find markers / DEGs
 ## using t-test, matching the cluster labels stored in the SCE object (k = 18 in this case)
