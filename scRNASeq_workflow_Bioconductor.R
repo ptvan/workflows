@@ -217,7 +217,9 @@ tcr <- read.csv(tcr.data, stringsAsFactors=FALSE)
 
 # merge with PBMC SCE
 tra <- tcr[tcr$chain=="TRA",]
+trb <- tcr[tcr$chain=="TRB",]
 sce.pbmc$TRA <- split(data.frame(tra), factor(tra$barcode, sce.pbmc$Barcode))
+sce.pbmc$TRB <- split(data.frame(trb), factor(tra$barcode, sce.pbmc$Barcode))
 
 # diagnostics, look for number of sequences per cell, plot those with at least one A and one B sequence
 at.least.one.A <- lengths(sce.pbmc$TRA) > 0
