@@ -277,3 +277,7 @@ dec4k <- dec4k[universe,]
 rescaled <- multiBatchNorm(pbmc3k, pbmc4k)
 pbmc3k <- rescaled[[1]]
 pbmc4k <- rescaled[[2]]
+
+# perform feature selection by averaging the variance components across batches
+combined.dec <- combineVar(dec3k, dec4k)
+chosen.hvgs <- combined.dec$bio > 0
