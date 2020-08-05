@@ -263,6 +263,8 @@ for (n in names(all.sce)) {
 
 pbmc3k <- all.sce$pbmc3k
 dec3k <- all.dec$pbmc3k
+pbmc4k <- all.sce$pbmc4k
+dec4k <- all.dec$pbmc4k
 
 # subset to the same universe of features
 universe <- intersect(rownames(pbmc3k), rownames(pbmc4k))
@@ -270,3 +272,8 @@ pbmc3k <- pbmc3k[universe,]
 pbmc4k <- pbmc4k[universe,]
 dec3k <- dec3k[universe,]
 dec4k <- dec4k[universe,]
+
+# adjust for batches' different sequencing depths using batchelor
+rescaled <- multiBatchNorm(pbmc3k, pbmc4k)
+pbmc3k <- rescaled[[1]]
+pbmc4k <- rescaled[[2]]
