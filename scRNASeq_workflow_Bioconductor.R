@@ -287,3 +287,10 @@ rowData(pbmc3k) <- rowData(pbmc4k)
 pbmc3k$batch <- "3k"
 pbmc4k$batch <- "4k"
 uncorrected <- cbind(pbmc3k, pbmc4k)
+
+# determine batch effects by PCA 
+uncorrected <- runPCA(uncorrected, subset_row=chosen.hvgs,
+                      BSPARAM=BiocSingular::RandomParam())
+snn.gr <- buildSNNGraph(uncorrected, use.dimred="PCA")
+clusters <- igraph::cluster_walktrap(snn.gr)$membership
+tab <- table(Cluster=clusters, Batch=uncorrected$batch)
