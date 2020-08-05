@@ -17,7 +17,7 @@ library(DropletUtils)
 library(EnsDb.Hsapiens.v86)
 library(org.Mm.eg.db)
 library(pheatmap)
-
+library(batchelor)
         
 #################################################
 # GENERATE DUMMY DATA TO WORK WITH THE sce CLASS
