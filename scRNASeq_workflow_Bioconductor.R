@@ -281,3 +281,9 @@ pbmc4k <- rescaled[[2]]
 # perform feature selection by averaging the variance components across batches
 combined.dec <- combineVar(dec3k, dec4k)
 chosen.hvgs <- combined.dec$bio > 0
+
+# Synchronizing the metadata so we can cbind
+rowData(pbmc3k) <- rowData(pbmc4k)
+pbmc3k$batch <- "3k"
+pbmc4k$batch <- "4k"
+uncorrected <- cbind(pbmc3k, pbmc4k)
