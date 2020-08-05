@@ -298,3 +298,12 @@ tab <- table(Cluster=clusters, Batch=uncorrected$batch)
 # TSNE also achieves similar results
 uncorrected <- runTSNE(uncorrected, dimred="PCA")
 plotTSNE(uncorrected, colour_by="batch")
+
+# perform actual normalization
+rescaled <- rescaleBatches(pbmc3k, pbmc4k)
+
+# post-normalization, batch should be less obvious
+rescaled <- runPCA(rescaled, subset_row=chosen.hvgs, exprs_values="corrected")
+rescaled <- runTSNE(rescaled, dimred="PCA")
+rescaled$batch <- factor(rescaled$batch)
+plotTSNE(rescaled, colour_by="batch")
