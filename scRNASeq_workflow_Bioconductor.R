@@ -299,7 +299,7 @@ tab <- table(Cluster=clusters, Batch=uncorrected$batch)
 uncorrected <- runTSNE(uncorrected, dimred="PCA")
 plotTSNE(uncorrected, colour_by="batch")
 
-# perform actual normalization
+# perform actual normalization with linear model using batchelor
 rescaled <- rescaleBatches(pbmc3k, pbmc4k)
 
 # post-normalization, batch should be less obvious
