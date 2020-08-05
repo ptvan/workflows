@@ -229,6 +229,7 @@ trb.counts.any <- table(colLabels(sce.pbmc)[at.least.one.B])
 barplot(rbind(TRA=tra.counts.any/ncells, TRB=trb.counts.any/ncells), beside=TRUE)
 
 ### Integrating datasets
+# load and process 10x PBMC data
 library(TENxPBMCData)
 
 all.sce <- list(
@@ -252,3 +253,20 @@ all.hvgs <- lapply(all.dec, getTopHVGs, prop=0.1)
 all.sce <- mapply(FUN=runPCA, x=all.sce, subset_row=all.hvgs, 
                   MoreArgs=list(ncomponents=25, BSPARAM=RandomParam()), 
                   SIMPLIFY=FALSE)
+all.sce <- lapply(all.sce, runTSNE, dimred="PCA")
+all.sce <- lapply(all.sce, runUMAP, dimred="PCA")
+for (n in names(all.sce)) {
+  g <- buildSNNGraph(all.sce[[n]], k=10, use.dimred='PCA')
+  clust <- igraph::cluster_walktrap(g)$membership
+  colLabels(all.sce[[n]])  <- factor(clust)
+}
+
+pbmc3k <- all.sce$pbmc3k
+dec3k <- all.dec$pbmc3k
+
+# subset to the same universe of features
+universe <- intersect(rownames(pbmc3k), rownames(pbmc4k))
+pbmc3k <- pbmc3k[universe,]
+pbmc4k <- pbmc4k[universe,]
+dec3k <- dec3k[universe,]
+dec4k <- dec4k[universe,]
