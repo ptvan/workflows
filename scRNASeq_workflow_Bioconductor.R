@@ -227,3 +227,28 @@ tra.counts.any <- table(colLabels(sce.pbmc)[at.least.one.A])
 at.least.one.B <- lengths(sce.pbmc$TRB) > 0
 trb.counts.any <- table(colLabels(sce.pbmc)[at.least.one.B])
 barplot(rbind(TRA=tra.counts.any/ncells, TRB=trb.counts.any/ncells), beside=TRUE)
+
+### Integrating datasets
+library(TENxPBMCData)
+
+all.sce <- list(
+  pbmc3k=TENxPBMCData('pbmc3k'),
+  pbmc4k=TENxPBMCData('pbmc4k'),
+  pbmc8k=TENxPBMCData('pbmc8k')
+)
+
+stats <- high.mito <- list()
+for (n in names(all.sce)) {
+  current <- all.sce[[n]]
+  is.mito <- grep("MT", rowData(current)$Symbol_TENx)
+  stats[[n]] <- perCellQCMetrics(current, subsets=list(Mito=is.mito))
+  high.mito[[n]] <- isOutlier(stats[[n]]$subsets_Mito_percent, type="higher")
+  all.sce[[n]] <- current[,!high.mito[[n]]]
+}
+
+all.sce <- lapply(all.sce, logNormCounts)
+all.dec <- lapply(all.sce, modelGeneVar)
+all.hvgs <- lapply(all.dec, getTopHVGs, prop=0.1)
+all.sce <- mapply(FUN=runPCA, x=all.sce, subset_row=all.hvgs, 
+                  MoreArgs=list(ncomponents=25, BSPARAM=RandomParam()), 
+                  SIMPLIFY=FALSE)
