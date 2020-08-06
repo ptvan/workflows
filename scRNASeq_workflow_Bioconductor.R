@@ -282,7 +282,7 @@ pbmc4k <- rescaled[[2]]
 combined.dec <- combineVar(dec3k, dec4k)
 chosen.hvgs <- combined.dec$bio > 0
 
-# Synchronizing the metadata so we can cbind
+# Synchronizing the metadata so we can cbind the two datasets
 rowData(pbmc3k) <- rowData(pbmc4k)
 pbmc3k$batch <- "3k"
 pbmc4k$batch <- "4k"
@@ -309,3 +309,7 @@ rescaled <- runPCA(rescaled, subset_row=chosen.hvgs, exprs_values="corrected")
 rescaled <- runTSNE(rescaled, dimred="PCA")
 rescaled$batch <- factor(rescaled$batch)
 plotTSNE(rescaled, colour_by="batch")
+
+# adjust using batchelor's fastMNN method
+mnn.out <- fastMNN(pbmc3k, pbmc4k, d=50, k=20, subset.row=chosen.hvgs,
+                   BSPARAM=BiocSingular::RandomParam(deferred=TRUE))
