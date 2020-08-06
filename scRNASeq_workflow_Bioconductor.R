@@ -313,3 +313,9 @@ plotTSNE(rescaled, colour_by="batch")
 # adjust using batchelor's fastMNN method
 mnn.out <- fastMNN(pbmc3k, pbmc4k, d=50, k=20, subset.row=chosen.hvgs,
                    BSPARAM=BiocSingular::RandomParam(deferred=TRUE))
+
+# correction diagnostics
+assay(mnn.out, "reconstructed")
+snn.gr <- buildSNNGraph(mnn.out, use.dimred="corrected")
+clusters.mnn <- igraph::cluster_walktrap(snn.gr)$membership
+tab.mnn <- table(Cluster=clusters.mnn, Batch=mnn.out$batch)
