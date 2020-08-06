@@ -251,7 +251,7 @@ all.sce <- lapply(all.sce, logNormCounts)
 all.dec <- lapply(all.sce, modelGeneVar)
 all.hvgs <- lapply(all.dec, getTopHVGs, prop=0.1)
 all.sce <- mapply(FUN=runPCA, x=all.sce, subset_row=all.hvgs, 
-                  MoreArgs=list(ncomponents=25, BSPARAM=RandomParam()), 
+                  MoreArgs=list(ncomponents=25, BSPARAM=BiocSingular::RandomParam()), 
                   SIMPLIFY=FALSE)
 all.sce <- lapply(all.sce, runTSNE, dimred="PCA")
 all.sce <- lapply(all.sce, runUMAP, dimred="PCA")
@@ -299,7 +299,9 @@ tab <- table(Cluster=clusters, Batch=uncorrected$batch)
 uncorrected <- runTSNE(uncorrected, dimred="PCA")
 plotTSNE(uncorrected, colour_by="batch")
 
-# perform actual normalization with linear model using batchelor
+# rescaling counts across batches with linear model using batchelor
+# this assumes that population composition of each batch is the same
+# this assumption is usually violated in real scRNASeq datasets
 rescaled <- rescaleBatches(pbmc3k, pbmc4k)
 
 # post-normalization, batch should be less obvious
