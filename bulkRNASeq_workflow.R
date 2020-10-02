@@ -111,9 +111,14 @@ colage <- cut(anno$age
 ##############################
 
 # create model matrices for different models and corresponding labels for contrasts
+# alternatively, we can use `makeContrasts()`
 mmatrix_stim <- model.matrix(~stim, data = anno)
 mmatrix_full <- model.matrix(~stim+school, data=anno)
+  
 cons <- c("stim", "school")
+
+# for a continuous variable like age, we can put the variable directly in
+mmatrix_age <- model.matrix(~age, data=anno)
 
 # normalize using voom
 normy <- calcNormFactors(dat)
