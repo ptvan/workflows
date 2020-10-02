@@ -13,6 +13,7 @@ library(magrittr)
 library(reshape2)
 library(sva)
 library(scBatch)
+library(splines)
 
 ##############################################
 # ALIGN READS TO GENOME USING RNASeqPipelineR
@@ -118,7 +119,14 @@ mmatrix_full <- model.matrix(~stim+school, data=anno)
 cons <- c("stim", "school")
 
 # for a continuous variable like age, we can put the variable directly in
+# which assumes linear trend
 mmatrix_age <- model.matrix(~age, data=anno)
+
+# assuming non-linear age effect, we can fit a spline
+# NOTE: the spline uses up degrees of freedom for the fit
+agespline <- ns(anno$age, df=5)
+mmatrix_age <- model.matrix(~agespline, data=anno)
+
 
 # normalize using voom
 normy <- calcNormFactors(dat)
