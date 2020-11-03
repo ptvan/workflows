@@ -159,17 +159,6 @@ chrMap <- getBM(attributes=attrs
 # get only protein coding genes
 proteinCodingGenes <- subset(chrMap, gene_biotype=="protein_coding")$external_gene_name
 
-## alternatively, we can fetch the gene names from a GTF file, eg. from UCSC hg38
-library(refGenome)
-hg38gtf <- ensemblGenome()
-read.gtf(hg38gtf, "UCSC_hg38_genes.gtf"
-         , useBasedir = FALSE)
-
-allGenes <- unique(hg38gtf@ev$gtf$gene_name)
-
-exon <- extractFeature(hg38gtf, "exon")
-exonicGenes <- unique(exon@ev$gtf$gene_name)
-
 # mapping mouse <-> human genes via ENSEMBL gene_id
 human <- useMart("ensembl", dataset = "hsapiens_gene_ensembl") 
 
