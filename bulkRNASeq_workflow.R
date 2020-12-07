@@ -30,20 +30,26 @@ loadProject(project_dir=PREFIX, name="RNASeq_demo")
 utils_dir <- "/fh/fast/gottardo_r/10_ref_files/Reference_Genome/Homo_sapiens/UCSC/hg38/"
 setGenomeReference(utils_dir, "hg38.fa")
 
-buildReference(path=utils_dir,gtf_file="UCSCDec2016.gtf", fasta_file="hg38.fa",
-               isoformsFile="UCSCKnownIsoformsDec2016.txt", doSTAR=TRUE, threads=6,
-               name="hg38")
+buildReference(path=utils_dir
+               , gtf_file="UCSCDec2016.gtf"
+               , fasta_file="hg38.fa"
+               , isoformsFile="UCSCKnownIsoformsDec2016.txt"
+               , doSTAR=TRUE
+               , threads=6
+               , name="hg38")
 
 # note: RNASeqPipelineR also supports Kallisto for alignment
 # which is faster and more accurate than STAR
 # below are options for paired reads
 
-AlignmentSTAR(parallel_threads=4, star_threads=2, paired=TRUE, 
-              paired_pattern=c("_R1.fq", "_R2.fq"))
+AlignmentSTAR(parallel_threads=4
+              , star_threads=2
+              , paired=TRUE
+              , paired_pattern=c("_R1.fq", "_R2.fq"))
 
-# nchunks should be multiple of parallel_threads
 setGenomeReference(utils_dir, "hg38")
 
+# nchunks should be multiple of parallel_threads
 RSEMCalculateExpression(parallel_threads=8,bowtie_threads=1,paired=TRUE, nchunks=16,
                         slurm=FALSE, fromBAM=TRUE, fromSTAR=TRUE)
 RSEMAssembleExpressionMatrix(force=TRUE)
@@ -57,7 +63,6 @@ qc_matrix <- QualityControl(paired=TRUE)
 mData <- mergeData(mergeAnnotation=FALSE)
 
 counts <- sumDuplicates(mData$counts, mData$featureData, NULL)
-
 
 ###########################################
 # GENERATE DUMMY DATA FOR REMAINING EXAMPLES
