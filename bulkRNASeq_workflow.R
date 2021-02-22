@@ -277,6 +277,8 @@ names(allOut) <- cons
 
 library(coxme)
 library(kinship2)
+library(parallel)
+
 data(sample.ped)
 
 # using an example kinship matrix from `kinship2`
@@ -300,9 +302,13 @@ rownames(out.mat) <- genes
 colnames(out.mat) <- c("pval","sigma")
 out.mat[,"gene"] <- genes
 
-# model each predictor in naive loop, for production this should be parallelized
 # thanks to Kim Dill-McFarland for original code on methylation data
-for (i in 1:ncol(counts_k)){
+
+fit.kin.results <- data.frame()
+
+fit.kin.results <- rbindlist(foreach(i=1:nrow(RSTR.M.kin)) %dopar%{
+  print(i)
+  
     gene <- rownames(counts_k)[i]
     
     fit <- lmekin(counts_k[i,] ~ vaccStatus + (1|ptid), 
@@ -316,9 +322,10 @@ for (i in 1:ncol(counts_k)){
     
     out.mat[gene,]$pval <- p.kin
     out.mat[gene,]$sigma <- sigma.kin
-}
+})
+
 # add Benjamini-Hochberg FDR to make results comparable to limma
-out.mat$FDR <- p.adjust(out.mat$pval, method="BH")
+fit.kin.results$FDR <- p.adjust(fit.kin.results$pval, method="BH")
 
 
 ######################################
