@@ -7,9 +7,11 @@ import scanpy as sc
 # !cd data; tar -xzf pbmc3k_filtered_gene_bc_matrices.tar.gz
 # !mkdir write
 
+# set params
 sc.settings.verbosity = 3             
 sc.logging.print_versions()
 sc.settings.set_figure_params(dpi=80, facecolor='white')
+results_file = 'write/pbmc3k.h5ad'
 
 # load data
 adata = sc.read_10x_mtx(
@@ -54,6 +56,12 @@ sc.pp.highly_variable_genes(adata, min_mean=0.0125, max_mean=3, min_disp=0.5)
 # plot HVGs
 sc.pl.highly_variable_genes(adata)
 
-# run PCA
+# run PCA & plot results
 sc.tl.pca(adata, svd_solver='arpack')
+sc.pl.pca(adata, color='CST3')
 
+# inspect variance ratio
+sc.pl.pca_variance_ratio(adata, log=True)
+
+# save results
+adata.write(results_file)
