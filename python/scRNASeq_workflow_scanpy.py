@@ -65,3 +65,28 @@ sc.pl.pca_variance_ratio(adata, log=True)
 
 # save results
 adata.write(results_file)
+
+# compute neighbors graph
+sc.pp.neighbors(adata, n_neighbors=10, n_pcs=40)
+
+# run UMAP
+sc.tl.umap(adata)
+
+# if there are disconnected clusters and other connectivity violations
+#sc.tl.paga(adata)
+#sc.pl.paga(adata, plot=False)  
+#sc.tl.umap(adata, init_pos='paga')
+
+# plot UMAP results, w/ and w/o correction
+sc.pl.umap(adata, color=['CST3', 'NKG7', 'PPBP'])
+sc.pl.umap(adata, color=['CST3', 'NKG7', 'PPBP'], use_raw=False)
+
+# cluster neighborhood graph
+sc.tl.leiden(adata)
+
+# plot clusters
+sc.pl.umap(adata, color=['leiden', 'CST3', 'NKG7'])
+
+# find marker genes
+sc.tl.rank_genes_groups(adata, 'leiden', method='t-test')
+sc.pl.rank_genes_groups(adata, n_genes=25, sharey=False)
