@@ -2,13 +2,14 @@
 // convert the images in the CMU Face Images data set into JPEG
 // original: https://archive.ics.uci.edu/ml/datasets/cmu+face+images
 
-results_path = "~/working/aws/results"
+results_path = "$HOME/working/datasets/CMU-faces/results"
 
-params.input = "~/working/aws/faces/an2i/*pgm"
+params.input = "$HOME/working/datasets/CMU-faces/an2i/*pgm"
 files = Channel.fromPath(params.input)
 
 process convert {
     publishDir "$results_path/"
+    
     input:
     file x from files
 
