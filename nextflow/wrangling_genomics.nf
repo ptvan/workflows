@@ -6,6 +6,8 @@ untrimmed_FastQs = Channel.fromPath(params.input)
 
 read_pairs = Channel.fromFilePairs("$HOME/working/wrangling-genomics/data/untrimmed_fastq/*_[1,2].fastq.gz", type: 'file')
 
+adapterFile = "$HOME/working/trimmomatic/adapters/NexteraPE-PE.fa"
+
 process runFastQC {
     publishDir "$HOME/working/wrangling-genomics/data/untrimmed_fastq/", mode:"copy", overwrite: true
 
@@ -29,13 +31,15 @@ process trimAdaptors {
     set sample, file(in_fastq) from read_pairs
 
     output:
-    file("*.trim.fastq.gz") into trimmed_FastQs
+    file("*.trim.fastq") into trimmed_FastQs
 
     script:
     """
-    java -jar $HOME/working/trimmomatic/trimmomatic-0.39.jar PE -threads 4 ${in_fastq.get(0)}.fastq ${in_fastq.get(1)}.fastq  \
-              ${in_fastq.get(0)}.trimmed.fastq ${in_fastq.get(0)}un.trimmed.fastq \
-              ${in_fastq.get(1)}.trimmed.fastq ${in_fastq.get(1)}un.trimmed.fastq \
-              ILLUMINACLIP:SRR_adapters.fa SLIDINGWINDOW:4:20
+    java -jar $HOME/working/trimmomatic/trimmomatic-0.39.jar PE -threads 4 \
+              ${in_fastq.get(0)} \
+              ${in_fastq.get(1)}  \
+              ${in_fastq.get(0)}.trim.fastq ${in_fastq.get(0)}un.trim.fastq \
+              ${in_fastq.get(1)}.trim.fastq ${in_fastq.get(1)}un.trim.fastq \
+              SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:${adapterFile}:2:40:15 
     """
 }
