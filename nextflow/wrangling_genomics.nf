@@ -38,8 +38,8 @@ process trimAdaptors {
     java -jar $HOME/working/trimmomatic/trimmomatic-0.39.jar PE -threads 4 \
               ${in_fastq.get(0)} \
               ${in_fastq.get(1)}  \
-              ${in_fastq.get(0)}.trim.fastq ${in_fastq.get(0)}un.trim.fastq \
-              ${in_fastq.get(1)}.trim.fastq ${in_fastq.get(1)}un.trim.fastq \
+              ${in_fastq.get(0).simpleName}.trim.fastq ${in_fastq.get(0).simpleName}un.trim.fastq \
+              ${in_fastq.get(1).simpleName}.trim.fastq ${in_fastq.get(1).simpleName}un.trim.fastq \
               SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:${adapterFile}:2:40:15 
     """
 }
