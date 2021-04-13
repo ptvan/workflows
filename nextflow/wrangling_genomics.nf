@@ -47,17 +47,16 @@ process trimAdaptors {
 }
 
 process indexReferenceGenome {
-    publishDir "$HOME/working/wrangling-genomics/data/ref_genome/", mode:"move", overwrite: true
+    publishDir "$HOME/working/wrangling-genomics/data/ref_genome/", mode:"copy", overwrite: true
 
     input:
-    file ref from referenceGenomeFile
+    file x from referenceGenomeFile
 
     output:
-    file("*.fasta.*") into genomeIndex
+    file("${x}") into genomeIndex
 
     script:
     """
-    bwa index ${ref}
+    bwa index ${referenceGenomeFile}
     """
-
 }
