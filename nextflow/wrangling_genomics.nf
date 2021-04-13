@@ -8,6 +8,8 @@ read_pairs = Channel.fromFilePairs("$HOME/working/wrangling-genomics/data/untrim
 
 adapterFile = "$HOME/working/trimmomatic/adapters/NexteraPE-PE.fa"
 
+referenceGenomeFile = "$HOME/working/wrangling-genomics/data/ref_genome/ecoli_rel606.fasta"
+
 process runFastQC {
     publishDir "$HOME/working/wrangling-genomics/data/untrimmed_fastq/", mode:"copy", overwrite: true
 
@@ -42,4 +44,20 @@ process trimAdaptors {
               ${in_fastq.get(1).simpleName}.trim.fastq ${in_fastq.get(1).simpleName}un.trim.fastq \
               SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:${adapterFile}:2:40:15 
     """
+}
+
+process indexReferenceGenome {
+    publishDir "$HOME/working/wrangling-genomics/data/ref_genome/", mode:"move", overwrite: true
+
+    input:
+    file ref from referenceGenomeFile
+
+    output:
+    file("*.fasta.*") into genomeIndex
+
+    script:
+    """
+    bwa index ${ref}
+    """
+
 }
