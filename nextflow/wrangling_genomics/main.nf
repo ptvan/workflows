@@ -1,9 +1,9 @@
 // based on https://datacarpentry.org/wrangling-genomics/
 nextflow.enable.dsl=2
 
-include { RUNFASTQC } from 'runFastQC'
-include { TRIMADAPTERS } from 'trimAdapters'
-include { INDEXREFERENCE } from 'indexReferenceGenome'
+include { RUNFASTQC } from './runFastQC'
+include { TRIMADAPTERS } from './trimAdapters'
+include { INDEXREFERENCE } from './indexReferenceGenome'
 
 
 workflow wranglingGenomics {

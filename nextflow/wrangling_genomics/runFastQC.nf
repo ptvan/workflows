@@ -1,6 +1,6 @@
 untrimmed_FastQs = Channel.fromPath("$HOME/working/wrangling-genomics/data/untrimmed_fastq/*.fastq.gz")
 
-process runFastQC {
+process RUNFASTQC {
     publishDir "$HOME/working/wrangling-genomics/data/untrimmed_fastq/", mode:"copy", overwrite: true
 
     input:

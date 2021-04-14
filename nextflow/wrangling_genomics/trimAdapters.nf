@@ -4,7 +4,7 @@ read_pairs = Channel.fromFilePairs("$HOME/working/wrangling-genomics/data/untrim
 
 adapterFile = "$HOME/working/trimmomatic/adapters/NexteraPE-PE.fa"
 
-process trimAdapters {
+process TRIMADAPTERS {
     publishDir "$HOME/working/wrangling-genomics/data/trimmed_fastq_small/", mode:"copy", overwrite: true
 
     input:

@@ -2,7 +2,7 @@ referenceGenomeFile = "$HOME/working/wrangling-genomics/data/ref_genome/ecoli_re
 
 referenceGenomeIndex = "$HOME/working/wrangling-genomics/data/ref_genome/ecoli_rel606.fasta.bwt"
 
-process indexReferenceGenome {
+process INDEXREFERENCE {
     publishDir "$HOME/working/wrangling-genomics/data/ref_genome/", mode:"copy", overwrite: true
 
     input:
