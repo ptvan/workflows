@@ -1,19 +1,47 @@
-referenceGenomeFile = "$HOME/working/wrangling-genomics/data/ref_genome/ecoli_rel606.fasta"
+nextflow.enable.dsl=2
 
-referenceGenomeIndex = "$HOME/working/wrangling-genomics/data/ref_genome/ecoli_rel606.fasta.bwt"
+params.suffix = ".fasta.*"
+params.help = false
 
-process INDEXREFERENCE {
-    publishDir "$HOME/working/wrangling-genomics/data/ref_genome/", mode:"copy", overwrite: true
+if (params.help || params.file == null || params.output == null){
+    helpMessage()
+    exit 1
+}
+
+def helpMessage() {
+    log.info"""
+    Usage:
+    nextflow run indexReferenceGenome.nf --file <> --output <>
+    
+    Required Arguments:
+      --input        Full path to .fasta file to index
+      --output       Folder to place index files
+    
+    """.stripIndent()
+}
+
+process indexReferenceGenome {
+    publishDir "${params.output}", mode: 'copy', overwrite: true
 
     input:
-    file x from referenceGenomeFile
+    file(ref)
 
     output:
-    file("${x}") into genomeIndex
+    file "*${params.suffix}"
 
     script:
     """
-    bwa index ${referenceGenomeFile}
+    bwa index ${ref}
     """
 }
 
+workflow {
+    input_ch = Channel.fromPath(
+        "${params.file}"
+    )
+
+    indexReferenceGenome(
+        input_ch
+    )
+
+}

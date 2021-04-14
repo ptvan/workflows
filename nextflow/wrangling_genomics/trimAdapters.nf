@@ -1,3 +1,5 @@
+nextflow.enable.dsl=2
+
 untrimmed_FastQs = Channel.fromPath("$HOME/working/wrangling-genomics/data/untrimmed_fastq/*.fastq.gz")
 
 read_pairs = Channel.fromFilePairs("$HOME/working/wrangling-genomics/data/untrimmed_fastq/*_[1,2].fastq.gz", type: 'file')

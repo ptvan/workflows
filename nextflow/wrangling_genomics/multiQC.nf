@@ -62,7 +62,7 @@ ls -lahtr
 // Start the workflow
 workflow {
 
-    // Get the input files ending with BAM
+    // Get the input files ending with FASTQ.GZ
     input_ch = Channel.fromPath(
         "${params.input}**${params.suffix}"
     ).map {
