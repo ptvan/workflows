@@ -38,7 +38,7 @@ process align {
     script:
     """
     ${params.alignmentProgram} ${params.alignmentMode} ${params.referenceGenome} \
-              ${in_fastq.get(0)} ${in_fastq.get(1)} > ${in_fastq.get(0).getBaseName()}.sam
+              ${in_fastq.get(0)} ${in_fastq.get(1)} > ${in_fastq.get(0).getBaseName().take(in_fastq.get(0).name.lastIndexOf('_1'))}.sam
     """
 }
 
