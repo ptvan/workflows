@@ -20,9 +20,9 @@ def helpMessage() {
       --input        Full path to .fasta.gz file to trim
       --output       Folder to place trimmed files
     
+    NOTE: this pipeline requires GNU parallel 
     """.stripIndent()
 }
-
 
 Channel.fromFilePairs("${params.input}**${params.suffix}").set{in_fastq}
 
@@ -30,24 +30,35 @@ process align {
     publishDir "${params.output}", mode:"copy", overwrite: true
 
     input:
-    tuple val(name), file(in_fastq)
-
+      tuple val(name), file(in_fastq)
+   
     output:
-    file("*.sam") 
+      path '*.sam', emit: unsorted_sam_ch
 
     script:
     """
     ${params.alignmentProgram} ${params.alignmentMode} ${params.referenceGenome} \
               ${in_fastq.get(0)} ${in_fastq.get(1)} > ${in_fastq.get(0).getBaseName().take(in_fastq.get(0).name.lastIndexOf('_1'))}.sam
+    ls -lahtr
     """
 }
 
+process sortSam {
+    publishDir "${params.output}", mode:"copy", overwrite: true
+
+    input:
+      path unsorted_sam_ch
+
+    output:
+      path '*sorted.sam', emit sortedsam_ch
+
+    script:
+    """
+    ls *.sam | parallel -j 8 'samtools sort {} > {.}_sorted.sam'
+    """    
+}
+
 workflow {
-
-    main:
-        align(in_fastq)
-    
-    emit:
-        align.out    
-
+    align(in_fastq)
+    sortSam(align.out) 
 }
