@@ -19,7 +19,7 @@ do
       samtools index $samplename.sorted.rmChrM.bam -o $samplename.sorted.rmChrM.bai
 
       printf " >>> checking for readgroup ..."
-      if samtools view -H sample1.bam | grep '@RG'
+      if samtools view -H $samplename.bam | grep '@RG'
       then
             printf "found @RG tag \n"
       else 
