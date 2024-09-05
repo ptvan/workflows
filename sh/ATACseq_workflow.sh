@@ -17,6 +17,9 @@
 ## - deeptools
 ## - MACS3
 
+## after peak-calling, additional analyses can be performed outside the pipeline
+## eg. R/ATACSeq_postpeakcalling_workflow.R in this repo
+
 while getopts ":i:o:" opt; do
       case $opt in
       i) arg_1="$OPTARG"
