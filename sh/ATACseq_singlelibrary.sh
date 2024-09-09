@@ -3,7 +3,16 @@
 export BT2IDX=/Users/ptv/working/Databases
 
 ## perform alignment against GRCh38
-bowtie2 --local --very-sensitive --no-mixed --no-discordant -I 25 -X 700 -x $BT2IDX/GCRh38_ATACseq -1 sample1_R1.trimmed.fastq.gz -2 sample1_R2.trimmed.fastq.gz | samtools view -bS - > sample1.bam
+bowtie2 \
+--local \
+--very-sensitive \
+--no-mixed \
+--no-discordant \
+-I 25 \
+-X 700 \
+-x $BT2IDX/GCRh38_ATACseq \
+-1 sample1_R1.trimmed.fastq.gz \
+-2 sample1_R2.trimmed.fastq.gz | samtools view -bS - > sample1.bam
 
 ## sort and index BAMs
 samtools sort sample1.bam -o sample1_sorted.bam
