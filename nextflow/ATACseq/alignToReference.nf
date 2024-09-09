@@ -1,7 +1,7 @@
 nextflow.enable.dsl=2
 
-params.suffix = "_{1,2}.trim.fastq"
-params.alignmentProgram = "/usr/bin/bowtie2"
+params.suffix = "*_R{1,2}.trimmed.fastq.gz"
+params.alignmentProgram = "/usr/local/bin/bowtie2"
 params.alignmentParams = "--local --very-sensitive --no-mixed --no-discordant -I 25 -X 700 -x "
 params.referenceGenome = "$HOME/working/Databases/GCRh38_ATACseq"
 params.help = false
@@ -17,48 +17,48 @@ def helpMessage() {
     nextflow run align.nf --input <> --output <>
     
     Required Arguments:
-      --input        Full path to .fasta.gz file to trim
-      --output       Folder to place trimmed files
+      --input        Full path to .fasta.gz file to align
+      --output       Folder to place BAM files
     
     NOTE: this pipeline requires GNU parallel 
     """.stripIndent()
 }
 
-Channel.fromFilePairs("${params.input}**${params.suffix}").set{in_fastq}
-
-process align {
+process alignToReference {
     publishDir "${params.output}", mode:"copy", overwrite: true
 
     input:
-      tuple val(name), file(in_fastq)
+      tuple val(sample), file(raw_reads)
    
     output:
-      path '*.sam', emit: unsorted_sam_ch
+      path '*.bam', emit: unsorted_bam_ch
 
     script:
+    def (read1, read2) = raw_reads
     """
-    ${params.alignmentProgram} ${params.alignmentMode} ${params.referenceGenome} \
-              -1 ${in_fastq.get(0)} -2 ${in_fastq.get(1)} | samtools view -bS - >  ${in_fastq.get(0).getBaseName().take(in_fastq.get(0).name.lastIndexOf('_1'))}.sam
+    ${params.alignmentProgram} ${params.alignmentParams} ${params.referenceGenome} \
+        -1 ${read1} -2 ${read2} | samtools view -bS - > ${sample}.bam
     
     """
 }
 
-process sortSam {
+process sortBam {
     publishDir "${params.output}", mode:"copy", overwrite: true
 
     input:
-      path unsorted_sam_ch
+      path unsorted_bam_ch
 
     output:
-      path '*sorted.sam', emit sortedsam_ch
+      path '*.sorted.bam', emit: sortedbam_ch
 
     script:
     """
-    ls *.sam | parallel -j 8 'samtools sort {} > {.}_sorted.sam'
+    ls *.bam | parallel -j 8 'samtools sort {} > {.}.sorted.bam'
     """    
 }
 
 workflow {
-    align(in_fastq)
-    sortSam(align.out) 
+    raw_reads = Channel.fromFilePairs("${params.input}/${params.suffix}")
+    aligned_reads = alignToReference(raw_reads)
+    sorted_reads = sortBam(aligned_reads) 
 }
