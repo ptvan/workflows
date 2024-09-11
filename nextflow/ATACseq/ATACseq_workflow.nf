@@ -3,11 +3,16 @@ params.suffix = "*_R{1,2}.trimmed.fastq.gz"
 params.alignmentProgram = "/usr/local/bin/bowtie2"
 params.alignmentParams = "--local --very-sensitive --no-mixed --no-discordant -I 25 -X 700 -x "
 params.referenceGenome = "$HOME/working/Databases/GCRh38_ATACseq"
+params.genomeBlacklist = "$HOME/working/raw_data/hg38.blacklist.bed.gz"
+params.nCPUs = 8
 params.help = false
 
 include { ALIGNTOREFERENCE } from './bowtie2.nf'
 include { SORTBAM; REMOVEMITOREADS } from './samtools.nf'
 include { REMOVEDUPLICATEREADS } from './picard.nf'
+include { MARKBLACKLISTREGIONS } from './bedtools.nf'
+include { RUNALIGNMENTSIEVE; RUNBAMCOVERAGE } from './deeptools.nf'
+include { CALLPEAKS } from './MACS.nf'
 
 if (params.help || params.input == null || params.output == null){
     helpMessage()
