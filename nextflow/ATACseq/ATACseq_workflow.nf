@@ -8,9 +8,9 @@ params.nCPUs = 8
 params.help = false
 
 include { ALIGNTOREFERENCE } from './bowtie2.nf'
-include { SORTBAM; REMOVEMITOREADS } from './samtools.nf'
+include { SORTBAM; REMOVEMITOREADS; ADDREADGROUPS } from './samtools.nf'
 include { REMOVEDUPLICATEREADS } from './picard.nf'
-include { MARKBLACKLISTREGIONS } from './bedtools.nf'
+include { MARKBLACKLISTREGIONS; BAMTOBED; BAMTOBEDPE } from './bedtools.nf'
 include { RUNALIGNMENTSIEVE; RUNBAMCOVERAGE } from './deeptools.nf'
 include { CALLPEAKS } from './MACS.nf'
 
@@ -38,4 +38,5 @@ workflow {
     aligned_reads = ALIGNTOREFERENCE(raw_reads)
     sorted_reads = SORTBAM(aligned_reads)
     noMito_reads = REMOVEMITOREADS(sorted_reads)
+    readgroup_reads = ADDREADGROUPS(noMito_reads)
 }
