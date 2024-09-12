@@ -36,9 +36,6 @@ publishDir "${params.output}", mode:"copy", overwrite: true
 process ADDREADGROUPS{
 publishDir "${params.output}", mode:"copy", overwrite: true
     tag { sample }
-    
-    // TO-DO : CUSTOMIZE EACH @RG FOR EACH SAMPLE !!!
-
     input:
       tuple val(sample), path(bam_noRG_ch)
 

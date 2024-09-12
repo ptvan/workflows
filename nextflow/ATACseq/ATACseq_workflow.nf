@@ -10,7 +10,7 @@ params.help = false
 include { ALIGNTOREFERENCE } from './bowtie2.nf'
 include { SORTBAM; REMOVEMITOREADS; ADDREADGROUPS } from './samtools.nf'
 include { REMOVEDUPLICATEREADS } from './picard.nf'
-include { MARKBLACKLISTREGIONS; BAMTOBED; BAMTOBEDPE } from './bedtools.nf'
+include { FILTERBLACKLISTREGIONS; BAMTOBED; BAMTOBEDPE } from './bedtools.nf'
 include { RUNALIGNMENTSIEVE; RUNBAMCOVERAGE } from './deeptools.nf'
 include { CALLPEAKS } from './MACS.nf'
 
@@ -39,5 +39,6 @@ workflow {
     sorted_reads = SORTBAM(aligned_reads)
     noMito_reads = REMOVEMITOREADS(sorted_reads)
     readgroup_reads = ADDREADGROUPS(noMito_reads)
-    nodupes_read = REMOVEDUPLICATEREADS(readgroup_reads)
+    noduplicates_reads = REMOVEDUPLICATEREADS(readgroup_reads)
+    blacklistfiltered_read = FILTERBLACKLISTREGIONS(noduplicates_reads, "${params.genomeBlacklist}")
 }

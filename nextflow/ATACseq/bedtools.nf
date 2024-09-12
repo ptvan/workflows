@@ -1,29 +1,29 @@
 nextflow.enable.dsl=2
 
-process MARKBLACKLISTREGIONS {
+process FILTERBLACKLISTREGIONS {
     publishDir "${params.output}", mode:"copy", overwrite: true
-    tag { input_bam_ch.baseName }
+    tag { sample }
     input:
-      path input_bam_ch
-      path bed_file
-
-    output:
-      path '*.blacklistfiltered.bam', emit: blacklisted_bam_ch
+      tuple val(sample), path(input_bam_ch)
+      path(bed_file)
+  
+    output:      
+      tuple val(sample), path("${input_bam_ch.baseName}.blacklistfiltered.bam"), emit: blacklistfiltered_ch
 
     script:
     """
-    bedtools intersect -nonamecheck -v -abam ${input_bam_ch} -b ${bed_file} > ${input_bam_ch.baseName}.blacklisted.bam
+    bedtools intersect -nonamecheck -v -abam ${input_bam_ch} -b ${bed_file} > ${input_bam_ch.baseName}.blacklistfiltered.bam
     """    
 }
 
 process BAMTOBED {
     publishDir "${params.output}", mode:"copy", overwrite: true
-    tag { input_bam_ch.baseName }
+    tag { sample }
     input:
-      path input_bam_ch
+      tuple val(sample), path(input_bam_ch)
       
     output:
-      path '*.bed', emit: bed_ch
+      path("${bed_ch.baseName}.bed"), emit: bed_ch
 
     script:
     """
@@ -33,12 +33,13 @@ process BAMTOBED {
 
 process BAMTOBEDPE {
     publishDir "${params.output}", mode:"copy", overwrite: true
-    tag { input_bam_ch.baseName }
+    tag { sample }
     input:
-      path input_bam_ch
+      tuple val(sample), path(input_bam_ch)
       
     output:
-      path '*.bedpe', emit: bedpe_ch
+      path("${bed_ch.baseName}.bed"), emit: bed_ch
+
 
     script:
     """
