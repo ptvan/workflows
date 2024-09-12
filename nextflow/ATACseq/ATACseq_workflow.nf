@@ -39,4 +39,5 @@ workflow {
     sorted_reads = SORTBAM(aligned_reads)
     noMito_reads = REMOVEMITOREADS(sorted_reads)
     readgroup_reads = ADDREADGROUPS(noMito_reads)
+    nodupes_read = REMOVEDUPLICATEREADS(readgroup_reads)
 }

@@ -1,27 +1,19 @@
 nextflow.enable.dsl=2
-params.picardProgram = "~/working/packages/picard.jar"
+params.picardMarkDuplicates = "java -jar ~/working/packages/picard.jar MarkDuplicates"
 
 process REMOVEDUPLICATEREADS {
     publishDir "${params.output}", mode:"copy", overwrite: true
-    tag { bam_dupes_ch.baseName }
+    tag { sample }
     input:
-      path bam_dupes_ch
+     tuple val(sample), path(bam_dupes_ch)
    
     output:
-      path '*.bam', emit: bam_nodupes_ch
+      tuple val(sample), path("${bam_dupes_ch.baseName}.rmDuplicates.bam"), emit: bam_nodupes_ch
 
     script:
     
     """
-    ${params.picardProgram} MarkDuplicates \
-    QUIET=true \ 
-    INPUT=${bam_dupes_ch} \
-    OUTPUT=${bam_dupes_ch}.dupesremoved.bam \
-    METRICS_FILE=${bam_dupes_ch}.dup.metrics \
-    REMOVE_DUPLICATES=true \
-    CREATE_INDEX=true \
-    VALIDATION_STRINGENCY=LENIENT \
-    TMP_DIR=.
+    ${params.picardMarkDuplicates} QUIET=true INPUT=${bam_dupes_ch} OUTPUT=${bam_dupes_ch.baseName}.rmDuplicates.bam METRICS_FILE=${bam_dupes_ch}.duplicates.metrics REMOVE_DUPLICATES=true CREATE_INDEX=true VALIDATION_STRINGENCY=LENIENT TMP_DIR=.
     
     """
 }

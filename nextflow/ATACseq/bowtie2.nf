@@ -4,10 +4,10 @@ process ALIGNTOREFERENCE {
     publishDir "${params.output}", mode:"copy", overwrite: true
     tag { sample }
     input:
-      tuple val(sample), file(raw_reads)
+      tuple val(sample), path(raw_reads)
    
     output:
-      path '*.bam', emit: unsorted_bam_ch
+      tuple val(sample), path('*.bam'), emit: unsorted_bam_ch
 
     script:
     def (read1, read2) = raw_reads
