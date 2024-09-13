@@ -22,9 +22,7 @@ if (params.help || params.input == null || params.output == null){
 def helpMessage() {
     log.info"""
     Usage:
-    nextflow run align.nf --input <> --output <>
-        
-    NOTE: this pipeline requires GNU parallel 
+    nextflow run ATACseq_workflow.nf --input <> --output <>
     
     Required Arguments:
       --input        Path to .fasta.gz input files 
@@ -36,9 +34,9 @@ def helpMessage() {
 workflow {
     raw_reads = Channel.fromFilePairs("${params.input}/${params.suffix}")
     aligned_reads = ALIGNTOREFERENCE(raw_reads)
-    sorted_reads = SORTBAM(aligned_reads)
-    noMito_reads = REMOVEMITOREADS(sorted_reads)
-    readgroup_reads = ADDREADGROUPS(noMito_reads)
+    noChrM_reads = REMOVEMITOREADS(aligned_reads)
+    readgroup_reads = ADDREADGROUPS(noChrM_reads)
     noduplicates_reads = REMOVEDUPLICATEREADS(readgroup_reads)
-    blacklistfiltered_read = FILTERBLACKLISTREGIONS(noduplicates_reads, "${params.genomeBlacklist}")
+    blacklisted_reads = SORTBAM(FILTERBLACKLISTREGIONS(noduplicates_reads, "${params.genomeBlacklist}"))
+    bedPE = BAMTOBEDPE(blacklisted_reads)
 }

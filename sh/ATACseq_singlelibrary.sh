@@ -61,10 +61,8 @@ alignmentSieve \
 samtools sort -O bam -o sample1_sorted.rmChrM.RGadded.dupesmarked.blacklist-filtered.shifted.bam sample1_sorted.rmChrM.RGadded.dupesmarked.blacklist-filtered.shifted.bam
 samtools index sample1_sorted.rmChrM.RGadded.dupesmarked.blacklist-filtered.shifted.bam -o sample1_sorted.rmChrM.RGadded.dupesmarked.blacklist-filtered.shifted.bai
 
-
 ## bam to bigwig
 # 2862010578 is the effective genome size for GRCh38 when using 150bp reads and including only regions which are uniquely mappable
-
 bamCoverage \
 --numberOfProcessors 8 \
 --binSize 10 \

@@ -2,17 +2,17 @@ nextflow.enable.dsl=2
 
 process RUNALIGNMENTSIEVE {
     publishDir "${params.output}", mode:"copy", overwrite: true
-    tag { bam_ch.baseName }
+    tag { sample }
     input:
-      path bam_ch
+      tuple val(sample), path(bam_ch)
 
     output:
-      path '*.shifted.ba*', emit: shiftedbam_ch
+      tuple val(sample), path("${bam_noRG_ch.baseName}.shifted.bam"), emit: shiftedbam_ch
 
     script:
     """
     alignmentSieve \
-     --verbose \
+    --verbose \
     --ATACshift \
     --blackListFileName ${params.genomeBlacklist} \
     --bam ${bam_ch}.bam \
@@ -24,12 +24,12 @@ process RUNALIGNMENTSIEVE {
 
 process RUNBAMCOVERAGE {
     publishDir "${params.output}", mode:"copy", overwrite: true
-    tag { bam_ch.baseName }
+    tag { sample }
     input:
-      path bam_ch
+      tuple val(sample), path(bam_ch)
 
     output:
-      path '*.bw', emit: shiftedbam_ch
+      tuple val(sample), path("*.bw"), emit: coveragebigwig_ch
 
     script:
     """
