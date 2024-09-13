@@ -15,7 +15,7 @@ process FILTERBLACKLISTREGIONS {
 
   script:
   """
-  bedtools intersect -nonamecheck -v -abam ${input_bam_ch} -b ${bed_file} > ${input_bam_ch.baseName}.blacklisted.bam
+  bedtools intersect -nonamecheck -v -abam ${input_bam_ch} -b ${bed_file} | samtools sort -o ${input_bam_ch.baseName}.blacklisted.bam
   samtools index ${input_bam_ch.baseName}.blacklisted.bam -o ${input_bam_ch.baseName}.blacklisted.bai
   """    
 }
@@ -43,7 +43,7 @@ process BAMTOBEDPE {
     tuple val(sample), path(input_bai_ch)
     
   output:
-    path("${sample}.bedPE"), emit: bedpe_ch
+    tuple val(sample), path("${sample}.bedPE"), emit: bedpe_ch
 
   script:
   """

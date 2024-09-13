@@ -4,14 +4,15 @@ params.alignmentProgram = "/usr/local/bin/bowtie2"
 params.alignmentParams = "--local --very-sensitive --no-mixed --no-discordant -I 25 -X 700 -x "
 params.referenceGenome = "$HOME/working/Databases/GCRh38_ATACseq"
 params.genomeBlacklist = "$HOME/working/raw_data/hg38.blacklist.bed.gz"
+params.effectiveGenomeSize = 2862010578
 params.nCPUs = 8
 params.help = false
 
-include { ALIGNTOREFERENCE } from './bowtie2.nf'
-include { SORTBAM; REMOVEMITOREADS; ADDREADGROUPS } from './samtools.nf'
-include { REMOVEDUPLICATEREADS } from './picard.nf'
+include { ALIGNTOGENOME } from './bowtie2.nf'
+include { SORTBAM; REMOVEMITOREADS; ADDREADGROUPS; REMOVEDUPLICATEREADS } from './samtools.nf'
+// include { REMOVEDUPLICATEREADS } from './picard.nf'
 include { FILTERBLACKLISTREGIONS; BAMTOBED; BAMTOBEDPE } from './bedtools.nf'
-include { RUNALIGNMENTSIEVE; RUNBAMCOVERAGE } from './deeptools.nf'
+include { ALIGNMENTSIEVE; BAMCOVERAGE } from './deeptools.nf'
 include { CALLPEAKS } from './MACS.nf'
 
 if (params.help || params.input == null || params.output == null){
@@ -33,10 +34,16 @@ def helpMessage() {
 
 workflow {
     raw_reads = Channel.fromFilePairs("${params.input}/${params.suffix}")
-    aligned_reads = ALIGNTOREFERENCE(raw_reads)
+    aligned_reads = ALIGNTOGENOME(raw_reads)
     noChrM_reads = REMOVEMITOREADS(aligned_reads)
     readgroup_reads = ADDREADGROUPS(noChrM_reads)
     noduplicates_reads = REMOVEDUPLICATEREADS(readgroup_reads)
-    blacklisted_reads = SORTBAM(FILTERBLACKLISTREGIONS(noduplicates_reads, "${params.genomeBlacklist}"))
+    blacklisted_reads = FILTERBLACKLISTREGIONS(noduplicates_reads, "${params.genomeBlacklist}")
     bedPE = BAMTOBEDPE(blacklisted_reads)
+
+    coordshifted_reads = ALIGNMENTSIEVE(blacklisted_reads)
+    bamcoverage = BAMCOVERAGE(blacklisted_reads)
+    
+    peaks = CALLPEAKS(bedPE)
 }
+

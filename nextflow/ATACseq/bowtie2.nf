@@ -1,6 +1,6 @@
 nextflow.enable.dsl=2
 
-process ALIGNTOREFERENCE {
+process ALIGNTOGENOME {
   publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:

@@ -21,26 +21,26 @@ process RANDSAMPLE {
 }
 
 process CALLPEAKS {
-  publishDir "${params.output}", mode:"copy", overwrite: true
-  tag { sample }
-  input:
-    tuple val(sample), path(bam_ch)
+    publishDir "${params.output}", mode:"copy", overwrite: true
+    tag { sample }
+    input:
+      tuple val(sample), path(bedPE_ch)
 
-  output:
-    tuple val(sample), path("MACS/*"), emit: callpeaksoutput_ch
+    output:
+      tuple val(sample), path("${sample}_macs/*"), emit: callpeaks_ch
 
-  script:
-  """
-  macs3 callpeak \
-  -f BEDPE \
-  --nomodel \
-  --shift -37 \
-  --extsize 73 \
-  -g 2862010578 \
-  -B --broad \
-  --keep-dup all \
-  --cutoff-analysis -n ${sample} \
-  -t ${bam_ch.baseName}.bed \
-  --outdir ${params.output} 2> ${bam_ch.baseName}.macs3.log
-  """
+    script:
+    """
+    macs3 callpeak \
+    -f BEDPE \
+    --nomodel \
+    --shift -37 \
+    --extsize 73 \
+    -g ${params.effectiveGenomeSize} \
+    -B --broad \
+    --keep-dup all \
+    --cutoff-analysis -n ${sample} \
+    -t ${bedPE_ch} \
+    --outdir ${sample}_macs 2> ${sample}_macs3.log
+    """
 }
