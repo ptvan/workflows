@@ -22,4 +22,4 @@ and analyses are found in [ATACSeq_postpeakcalling_workflow.R](https://github.co
 
 ## Running the workflow
 
-`nextflow run ATACseq_workflow.nf -resume --input <path_to_FASTQ_directory> --output <output_directory>
+`nextflow run ATACseq_workflow.nf -resume --input <path_to_FASTQ_directory> --output <output_directory>`
