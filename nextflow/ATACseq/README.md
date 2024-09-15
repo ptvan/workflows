@@ -9,8 +9,8 @@ and analyses are found in [ATACSeq_postpeakcalling_workflow.R](https://github.co
 - [samtools](https://www.htslib.org)
 - [bedtools](https://bedtools.readthedocs.io/en/latest/)
 - [deeptools](https://deeptools.readthedocs.io/en/latest/)
-- [picard](https://broadinstitute.github.io/picard/) _optional_ if you prefer to use it instead of `samtools` for removing duplicate reads
-- [MACS]() currently `macs3` at the time of this workflow's completion
+- [MACS](https://github.com/macs3-project/MACS) currently `macs3` at the time of this workflow's completion
+- [picard](https://broadinstitute.github.io/picard/) _optional_ if you prefer to use it instead of `samtools` for removing duplicate reads, see `picard.nf`
 
 ## Installation & setup
 

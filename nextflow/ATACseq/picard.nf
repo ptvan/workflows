@@ -1,6 +1,10 @@
 nextflow.enable.dsl=2
 params.picardMarkDuplicates = "java -jar ~/working/packages/picard.jar MarkDuplicates"
 
+// NOTE: by default the workflow uses `samtools` to remove duplicate reads
+// change lines 12-13 of `ATACseq_worklow.nf` (import REMOVEDUPLICATEREADS) if
+// you want to use the picard version below
+
 process REMOVEDUPLICATEREADS {
     publishDir "${params.output}", mode:"copy", overwrite: true
     tag { sample }
