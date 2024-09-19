@@ -1,0 +1,10 @@
+name: atacseq
+channels:
+    - bioconda
+dependencies:
+    - python=3.12
+    - samtools
+    - bedtools
+    - picard
+    - deeptools
+    - macs3
