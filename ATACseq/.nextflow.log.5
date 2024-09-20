@@ -1,0 +1,141 @@
+Sep-20 10:41:04.595 [main] DEBUG nextflow.cli.Launcher - $> nextflow run ATACseq_workflow.nf --input /Users/ptv/working/raw_data/input --output /Users/ptv/working/raw_data/output
+Sep-20 10:41:04.906 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.04.4
+Sep-20 10:41:04.935 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/ptv/.nextflow/plugins; core-plugins: nf-amazon@2.5.3,nf-azure@1.6.1,nf-cloudcache@0.4.1,nf-codecommit@0.2.1,nf-console@1.1.3,nf-ga4gh@1.3.0,nf-google@1.13.2-patch1,nf-tower@1.9.1,nf-wave@1.4.2-patch1
+Sep-20 10:41:04.950 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Sep-20 10:41:04.951 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Sep-20 10:41:04.955 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Sep-20 10:41:04.969 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Sep-20 10:41:04.997 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Users/ptv/working/workflows/nextflow/ATACseq/nextflow.config
+Sep-20 10:41:05.001 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/ptv/working/workflows/nextflow/ATACseq/nextflow.config
+Sep-20 10:41:05.041 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /Users/ptv/.nextflow/secrets/store.json
+Sep-20 10:41:05.046 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@3028e50e] - activable => nextflow.secret.LocalSecretsProvider@3028e50e
+Sep-20 10:41:05.063 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Sep-20 10:41:05.633 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Sep-20 10:41:05.659 [main] DEBUG nextflow.cli.CmdRun - Launching `ATACseq_workflow.nf` [pedantic_monod] DSL2 - revision: f5e93942de
+Sep-20 10:41:05.661 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Sep-20 10:41:05.661 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Sep-20 10:41:05.741 [main] DEBUG nextflow.Session - Session UUID: 26f7349e-f9fa-497f-a62e-b54927d6b797
+Sep-20 10:41:05.741 [main] DEBUG nextflow.Session - Run name: pedantic_monod
+Sep-20 10:41:05.742 [main] DEBUG nextflow.Session - Executor pool size: 12
+Sep-20 10:41:05.755 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Sep-20 10:41:05.871 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.04.4 build 5917
+  Created: 01-08-2024 07:05 UTC (00:05 PDT)
+  System: Mac OS X 13.7
+  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 22.0.2
+  Encoding: UTF-8 (UTF-8)
+  Process: 79782@affinis [192.168.0.3]
+  CPUs: 12 - Mem: 16 GB (6.3 GB) - Swap: 3 GB (1.3 GB) - Virtual threads ON
+Sep-20 10:41:05.890 [main] DEBUG nextflow.Session - Work-dir: /Users/ptv/working/workflows/nextflow/ATACseq/work [Mac OS X]
+Sep-20 10:41:05.891 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /Users/ptv/working/workflows/nextflow/ATACseq/bin
+Sep-20 10:41:05.906 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Sep-20 10:41:05.921 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Sep-20 10:41:05.953 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Sep-20 10:41:05.966 [main] DEBUG nextflow.util.CustomPoolFactory - Creating virtual thread pool
+Sep-20 10:41:06.055 [main] DEBUG nextflow.Session - Session start
+Sep-20 10:41:06.316 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Sep-20 10:41:07.040 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.040 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.048 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Sep-20 10:41:07.055 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=12; memory=16 GB; capacity=12; pollInterval=100ms; dumpInterval=5m
+Sep-20 10:41:07.058 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Sep-20 10:41:07.132 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.133 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.143 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.143 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.153 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.154 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.168 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.168 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.178 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.178 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.188 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.188 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.197 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.197 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.205 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:41:07.205 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:41:07.228 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: CALLPEAKS, REMOVEMITOREADS, BAMTOBED, ALIGNMENTSIEVE, BAMCOVERAGE, ADDREADGROUPS, BAMTOBEDPE, RANDSAMPLE, REMOVEDUPLICATEREADS, FILTERBLACKLISTREGIONS, SORTBAM, ALIGNTOGENOME
+Sep-20 10:41:07.228 [main] DEBUG nextflow.Session - Igniting dataflow network (10)
+Sep-20 10:41:07.235 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /Users/ptv/working/raw_data/input/; pattern: *_R{1,2}.trimmed.fastq.gz; options: [:]
+Sep-20 10:41:07.235 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ALIGNTOGENOME
+Sep-20 10:41:07.236 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REMOVEMITOREADS
+Sep-20 10:41:07.236 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ADDREADGROUPS
+Sep-20 10:41:07.237 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REMOVEDUPLICATEREADS
+Sep-20 10:41:07.237 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > FILTERBLACKLISTREGIONS
+Sep-20 10:41:07.237 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > BAMTOBEDPE
+Sep-20 10:41:07.238 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ALIGNMENTSIEVE
+Sep-20 10:41:07.238 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > BAMCOVERAGE
+Sep-20 10:41:07.238 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > CALLPEAKS
+Sep-20 10:41:07.240 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_5675b87568367622: /Users/ptv/working/workflows/nextflow/ATACseq/./bedtools.nf
+  Script_8d4b0ab70dcef2e8: /Users/ptv/working/workflows/nextflow/ATACseq/./MACS.nf
+  Script_3c01114e99eb164d: /Users/ptv/working/workflows/nextflow/ATACseq/./deeptools.nf
+  Script_91c2919162433f9d: /Users/ptv/working/workflows/nextflow/ATACseq/ATACseq_workflow.nf
+  Script_172f009912afc78b: /Users/ptv/working/workflows/nextflow/ATACseq/./bowtie2.nf
+  Script_54bc3762385cf724: /Users/ptv/working/workflows/nextflow/ATACseq/./samtools.nf
+Sep-20 10:41:07.240 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Sep-20 10:41:07.240 [main] DEBUG nextflow.Session - Session await
+Sep-20 10:41:07.474 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:07.476 [Task submitter] INFO  nextflow.Session - [ae/145ff1] Submitted process > ALIGNTOGENOME (sample1)
+Sep-20 10:41:07.484 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:07.485 [Task submitter] INFO  nextflow.Session - [ec/c2792b] Submitted process > ALIGNTOGENOME (sample2)
+Sep-20 10:41:32.213 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: ALIGNTOGENOME (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/ae/145ff1c1352c373010036235ac872f]
+Sep-20 10:41:32.265 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:32.265 [Task submitter] INFO  nextflow.Session - [28/f45da6] Submitted process > REMOVEMITOREADS (sample1)
+Sep-20 10:41:33.188 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: REMOVEMITOREADS (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/28/f45da661343d8e36002402f254b7ef]
+Sep-20 10:41:33.205 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:33.205 [Task submitter] INFO  nextflow.Session - [eb/ef9d85] Submitted process > ADDREADGROUPS (sample1)
+Sep-20 10:41:33.847 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: ADDREADGROUPS (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/eb/ef9d85251da530a349912128fb7ef2]
+Sep-20 10:41:33.869 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:33.870 [Task submitter] INFO  nextflow.Session - [26/2b72ba] Submitted process > REMOVEDUPLICATEREADS (sample1)
+Sep-20 10:41:34.844 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 5; name: REMOVEDUPLICATEREADS (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/26/2b72ba66a986d32d2371dbe6f8efeb]
+Sep-20 10:41:34.860 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:34.860 [Task submitter] INFO  nextflow.Session - [2c/d327cd] Submitted process > FILTERBLACKLISTREGIONS (sample1)
+Sep-20 10:41:35.919 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 6; name: FILTERBLACKLISTREGIONS (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/2c/d327cd977b753ed92dc9e02487ac4c]
+Sep-20 10:41:35.933 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:35.933 [Task submitter] INFO  nextflow.Session - [2a/e04572] Submitted process > BAMTOBEDPE (sample1)
+Sep-20 10:41:35.944 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:35.944 [Task submitter] INFO  nextflow.Session - [ea/4e3dbc] Submitted process > ALIGNMENTSIEVE (sample1)
+Sep-20 10:41:35.950 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:35.951 [Task submitter] INFO  nextflow.Session - [a1/d14cbc] Submitted process > BAMCOVERAGE (sample1)
+Sep-20 10:41:36.112 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 9; name: BAMTOBEDPE (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/2a/e0457290c33e7cb3ce77c373c755f3]
+Sep-20 10:41:36.140 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:36.140 [Task submitter] INFO  nextflow.Session - [eb/a40b9c] Submitted process > CALLPEAKS (sample1)
+Sep-20 10:41:37.676 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: CALLPEAKS (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/eb/a40b9c65033ed781455bbbb617a6ec]
+Sep-20 10:41:44.242 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: ALIGNTOGENOME (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/ec/c2792beb0ddccda39375d7e26f7b93]
+Sep-20 10:41:44.275 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:44.276 [Task submitter] INFO  nextflow.Session - [79/42e58e] Submitted process > REMOVEMITOREADS (sample2)
+Sep-20 10:41:46.753 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 11; name: REMOVEMITOREADS (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/79/42e58e93d49e32de4dcc5847878fc4]
+Sep-20 10:41:46.774 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:46.775 [Task submitter] INFO  nextflow.Session - [ab/7a8c23] Submitted process > ADDREADGROUPS (sample2)
+Sep-20 10:41:48.393 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 12; name: ADDREADGROUPS (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/ab/7a8c236e93925b8ac26adc70f0eeee]
+Sep-20 10:41:48.414 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:48.415 [Task submitter] INFO  nextflow.Session - [73/ec4418] Submitted process > REMOVEDUPLICATEREADS (sample2)
+Sep-20 10:41:51.051 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 13; name: REMOVEDUPLICATEREADS (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/73/ec4418fc76fe8affaef3d88eb4ac9f]
+Sep-20 10:41:51.080 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:51.080 [Task submitter] INFO  nextflow.Session - [af/633769] Submitted process > FILTERBLACKLISTREGIONS (sample2)
+Sep-20 10:41:54.384 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 14; name: FILTERBLACKLISTREGIONS (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/af/63376998e2feb7daa8a4a3b741f6a3]
+Sep-20 10:41:54.410 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:54.411 [Task submitter] INFO  nextflow.Session - [1c/ab006d] Submitted process > BAMTOBEDPE (sample2)
+Sep-20 10:41:54.417 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:54.417 [Task submitter] INFO  nextflow.Session - [5d/49b9f3] Submitted process > BAMCOVERAGE (sample2)
+Sep-20 10:41:54.425 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:54.426 [Task submitter] INFO  nextflow.Session - [c6/1d10f9] Submitted process > ALIGNMENTSIEVE (sample2)
+Sep-20 10:41:54.957 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 15; name: BAMTOBEDPE (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/1c/ab006d4e2bd59156ef9bece50b90c2]
+Sep-20 10:41:54.975 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:41:54.976 [Task submitter] INFO  nextflow.Session - [f6/10d58d] Submitted process > CALLPEAKS (sample2)
+Sep-20 10:41:59.826 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 18; name: CALLPEAKS (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/f6/10d58db0cba5bb3d4455325b61050c]
+Sep-20 10:43:05.625 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 8; name: ALIGNMENTSIEVE (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/ea/4e3dbc64f335986e4489cf8a87b5c0]
+Sep-20 10:43:53.551 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 7; name: BAMCOVERAGE (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/a1/d14cbc182c6b1c7a188c2b160c5006]
+Sep-20 10:43:57.591 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 16; name: ALIGNMENTSIEVE (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/c6/1d10f9b5fa79a8a0515745784b7365]
+Sep-20 10:44:07.294 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 17; name: BAMCOVERAGE (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/5d/49b9f3483fc3a7fbb6311b3e8b77d0]
+Sep-20 10:44:07.298 [main] DEBUG nextflow.Session - Session await > all processes finished
+Sep-20 10:44:07.397 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Sep-20 10:44:07.397 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Sep-20 10:44:07.401 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+Sep-20 10:44:07.401 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'PublishDir' shutdown completed (hard=false)
+Sep-20 10:44:07.409 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=18; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=9m 24s; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=5; peakCpus=5; peakMemory=0; ]
+Sep-20 10:44:07.517 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Sep-20 10:44:07.621 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Sep-20 10:44:07.623 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

@@ -1,0 +1,129 @@
+Sep-20 10:29:35.023 [main] DEBUG nextflow.cli.Launcher - $> nextflow run ATACseq_workflow.nf -with-docker --input /Users/ptv/working/raw_data/input --output /Users/ptv/working/raw_data/output
+Sep-20 10:29:35.325 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.04.4
+Sep-20 10:29:35.347 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/Users/ptv/.nextflow/plugins; core-plugins: nf-amazon@2.5.3,nf-azure@1.6.1,nf-cloudcache@0.4.1,nf-codecommit@0.2.1,nf-console@1.1.3,nf-ga4gh@1.3.0,nf-google@1.13.2-patch1,nf-tower@1.9.1,nf-wave@1.4.2-patch1
+Sep-20 10:29:35.361 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Sep-20 10:29:35.362 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Sep-20 10:29:35.366 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+Sep-20 10:29:35.381 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Sep-20 10:29:35.406 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Users/ptv/working/workflows/nextflow/ATACseq/nextflow.config
+Sep-20 10:29:35.409 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/ptv/working/workflows/nextflow/ATACseq/nextflow.config
+Sep-20 10:29:35.438 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /Users/ptv/.nextflow/secrets/store.json
+Sep-20 10:29:35.442 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@3028e50e] - activable => nextflow.secret.LocalSecretsProvider@3028e50e
+Sep-20 10:29:35.457 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Sep-20 10:29:35.984 [main] DEBUG nextflow.config.ConfigBuilder - Enabling execution in Docker container as requested by command-line option `-with-docker -`
+Sep-20 10:29:35.995 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+Sep-20 10:29:36.014 [main] DEBUG nextflow.cli.CmdRun - Launching `ATACseq_workflow.nf` [grave_panini] DSL2 - revision: f5e93942de
+Sep-20 10:29:36.016 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Sep-20 10:29:36.016 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Sep-20 10:29:36.086 [main] DEBUG nextflow.Session - Session UUID: 768928ed-4e7e-44fc-b52b-ea40b6e78423
+Sep-20 10:29:36.087 [main] DEBUG nextflow.Session - Run name: grave_panini
+Sep-20 10:29:36.087 [main] DEBUG nextflow.Session - Executor pool size: 12
+Sep-20 10:29:36.097 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Sep-20 10:29:36.165 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.04.4 build 5917
+  Created: 01-08-2024 07:05 UTC (00:05 PDT)
+  System: Mac OS X 13.7
+  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 22.0.2
+  Encoding: UTF-8 (UTF-8)
+  Process: 76695@affinis [192.168.0.3]
+  CPUs: 12 - Mem: 16 GB (5.6 GB) - Swap: 2 GB (597 MB) - Virtual threads ON
+Sep-20 10:29:36.184 [main] DEBUG nextflow.Session - Work-dir: /Users/ptv/working/workflows/nextflow/ATACseq/work [Mac OS X]
+Sep-20 10:29:36.185 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /Users/ptv/working/workflows/nextflow/ATACseq/bin
+Sep-20 10:29:36.198 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Sep-20 10:29:36.214 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Sep-20 10:29:36.249 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Sep-20 10:29:36.260 [main] DEBUG nextflow.util.CustomPoolFactory - Creating virtual thread pool
+Sep-20 10:29:36.325 [main] DEBUG nextflow.Session - Session start
+Sep-20 10:29:36.559 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Sep-20 10:29:37.292 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.292 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.300 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Sep-20 10:29:37.307 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=12; memory=16 GB; capacity=12; pollInterval=100ms; dumpInterval=5m
+Sep-20 10:29:37.310 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Sep-20 10:29:37.380 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.380 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.391 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.391 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.401 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.402 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.414 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.414 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.424 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.424 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.434 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.435 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.443 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.444 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.451 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Sep-20 10:29:37.451 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Sep-20 10:29:37.454 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: REMOVEMITOREADS, CALLPEAKS, BAMTOBED, ALIGNMENTSIEVE, BAMCOVERAGE, ADDREADGROUPS, BAMTOBEDPE, RANDSAMPLE, REMOVEDUPLICATEREADS, FILTERBLACKLISTREGIONS, SORTBAM, ALIGNTOGENOME
+Sep-20 10:29:37.455 [main] DEBUG nextflow.Session - Igniting dataflow network (10)
+Sep-20 10:29:37.461 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /Users/ptv/working/raw_data/input/; pattern: *_R{1,2}.trimmed.fastq.gz; options: [:]
+Sep-20 10:29:37.461 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ALIGNTOGENOME
+Sep-20 10:29:37.462 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REMOVEMITOREADS
+Sep-20 10:29:37.462 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ADDREADGROUPS
+Sep-20 10:29:37.463 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > REMOVEDUPLICATEREADS
+Sep-20 10:29:37.463 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > FILTERBLACKLISTREGIONS
+Sep-20 10:29:37.463 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > BAMTOBEDPE
+Sep-20 10:29:37.464 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > ALIGNMENTSIEVE
+Sep-20 10:29:37.464 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > BAMCOVERAGE
+Sep-20 10:29:37.464 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > CALLPEAKS
+Sep-20 10:29:37.466 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_8d4b0ab70dcef2e8: /Users/ptv/working/workflows/nextflow/ATACseq/./MACS.nf
+  Script_db7caa4fb7ff7ed4: /Users/ptv/working/workflows/nextflow/ATACseq/./deeptools.nf
+  Script_e2c319b64c7728b5: /Users/ptv/working/workflows/nextflow/ATACseq/./bedtools.nf
+  Script_506d733c27d0787e: /Users/ptv/working/workflows/nextflow/ATACseq/./samtools.nf
+  Script_91c2919162433f9d: /Users/ptv/working/workflows/nextflow/ATACseq/ATACseq_workflow.nf
+  Script_f357a0900b029b16: /Users/ptv/working/workflows/nextflow/ATACseq/./bowtie2.nf
+Sep-20 10:29:37.466 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Sep-20 10:29:37.466 [main] DEBUG nextflow.Session - Session await
+Sep-20 10:29:37.764 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:29:37.766 [Task submitter] INFO  nextflow.Session - [d4/8614b2] Submitted process > ALIGNTOGENOME (sample2)
+Sep-20 10:29:37.775 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Sep-20 10:29:37.776 [Task submitter] INFO  nextflow.Session - [2f/8e0169] Submitted process > ALIGNTOGENOME (sample1)
+Sep-20 10:29:38.415 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: ALIGNTOGENOME (sample2); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/d4/8614b21f9a3632504ec6ee9d5a8ffa]
+Sep-20 10:29:38.422 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: ALIGNTOGENOME (sample1); status: COMPLETED; exit: 0; error: -; workDir: /Users/ptv/working/workflows/nextflow/ATACseq/work/2f/8e0169d442e5153804f9747ae1107c]
+Sep-20 10:29:38.438 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=ALIGNTOGENOME (sample1); work-dir=/Users/ptv/working/workflows/nextflow/ATACseq/work/2f/8e0169d442e5153804f9747ae1107c
+  error [nextflow.exception.MissingFileException]: Missing output file(s) `*.bam` expected by process `ALIGNTOGENOME (sample1)`
+Sep-20 10:29:38.481 [TaskFinalizer-2] ERROR nextflow.processor.TaskProcessor - Error executing process > 'ALIGNTOGENOME (sample1)'
+
+Caused by:
+  Missing output file(s) `*.bam` expected by process `ALIGNTOGENOME (sample1)`
+
+
+Command executed:
+
+  #!/usr/bin/env bash
+  bowtie2 --local --very-sensitive --no-mixed --no-discordant -I 25 -X 700 -x  /Users/ptv/working/Databases/GCRh38_ATACseq -1 sample1_R1.trimmed.fastq.gz -2 sample1_R2.trimmed.fastq.gz | samtools view -bS - > sample1.bam 
+  
+  samtools sort sample1.bam -o sample1.tmp.bam
+  samtools index sample1.tmp.bam -o sample1.bai
+  mv sample1.tmp.bam sample1.bam
+
+Command exit status:
+  0
+
+Command output:
+  HOSTNAME=23b2e5b3c6ae
+  NXF_TASK_WORKDIR=/Users/ptv/working/workflows/nextflow/ATACseq/work/2f/8e0169d442e5153804f9747ae1107c
+  PWD=/Users/ptv/working/workflows/nextflow/ATACseq/work/2f/8e0169d442e5153804f9747ae1107c
+  HOME=/root
+  SHLVL=0
+  PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/miniforge/bin
+  _=/usr/bin/env
+
+Work dir:
+  /Users/ptv/working/workflows/nextflow/ATACseq/work/2f/8e0169d442e5153804f9747ae1107c
+
+Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+Sep-20 10:29:38.484 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=ALIGNTOGENOME (sample2); work-dir=/Users/ptv/working/workflows/nextflow/ATACseq/work/d4/8614b21f9a3632504ec6ee9d5a8ffa
+  error [nextflow.exception.MissingFileException]: Missing output file(s) `*.bam` expected by process `ALIGNTOGENOME (sample2)`
+Sep-20 10:29:38.492 [TaskFinalizer-2] DEBUG nextflow.Session - Session aborted -- Cause: Missing output file(s) `*.bam` expected by process `ALIGNTOGENOME (sample1)`
+Sep-20 10:29:38.500 [main] DEBUG nextflow.Session - Session await > all processes finished
+Sep-20 10:29:38.520 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Sep-20 10:29:38.521 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Sep-20 10:29:38.536 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=2; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=1.2s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=2; peakCpus=2; peakMemory=0; ]
+Sep-20 10:29:38.712 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Sep-20 10:29:38.768 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
