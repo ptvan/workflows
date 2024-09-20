@@ -1,7 +1,6 @@
 nextflow.enable.dsl=2
 
 process SORTBAM {
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(unsorted_bam_ch)
@@ -20,7 +19,6 @@ process SORTBAM {
 }
 
 process REMOVEMITOREADS{
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(bam_mito_ch)
@@ -38,7 +36,6 @@ process REMOVEMITOREADS{
 }
 
 process ADDREADGROUPS{
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(bam_noRG_ch)
@@ -57,7 +54,6 @@ process ADDREADGROUPS{
 
 
 process REMOVEDUPLICATEREADS {
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(bam_dupes_ch)

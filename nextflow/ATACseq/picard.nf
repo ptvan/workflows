@@ -6,7 +6,6 @@ params.picardMarkDuplicates = "java -jar ~/working/packages/picard.jar MarkDupli
 // you want to use the picard version below
 
 process REMOVEDUPLICATEREADS {
-    publishDir "${params.output}", mode:"copy", overwrite: true
     tag { sample }
     input:
      tuple val(sample), path(bam_dupes_ch)

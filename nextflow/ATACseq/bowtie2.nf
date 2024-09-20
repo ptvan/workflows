@@ -1,7 +1,6 @@
 nextflow.enable.dsl=2
 
 process ALIGNTOGENOME {
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(raw_reads)
@@ -13,6 +12,7 @@ process ALIGNTOGENOME {
   script:
   def (read1, read2) = raw_reads
   """
+  #!/usr/bin/env bash
   ${params.alignmentProgram} ${params.alignmentParams} ${params.referenceGenome} -1 ${read1} -2 ${read2} | samtools view -bS - > ${sample}.bam 
 
   samtools sort ${sample}.bam -o ${sample}.tmp.bam

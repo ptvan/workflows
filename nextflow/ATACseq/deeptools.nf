@@ -27,7 +27,6 @@ process ALIGNMENTSIEVE {
 }
 
 process BAMCOVERAGE {
-    publishDir "${params.output}", mode:"copy", overwrite: true
     tag { sample }
     input:
       tuple val(sample), path(bam_ch)

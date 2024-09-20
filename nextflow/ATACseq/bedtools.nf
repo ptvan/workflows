@@ -1,7 +1,6 @@
 nextflow.enable.dsl=2
 
 process FILTERBLACKLISTREGIONS {
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(input_bam_ch)
@@ -21,7 +20,6 @@ process FILTERBLACKLISTREGIONS {
 }
 
 process BAMTOBED {
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(input_bam_ch)
@@ -36,7 +34,6 @@ process BAMTOBED {
 }
 
 process BAMTOBEDPE {
-  publishDir "${params.output}", mode:"copy", overwrite: true
   tag { sample }
   input:
     tuple val(sample), path(input_bam_ch)
