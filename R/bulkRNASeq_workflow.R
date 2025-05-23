@@ -64,8 +64,28 @@ mData <- mergeData(mergeAnnotation=FALSE)
 
 counts <- sumDuplicates(mData$counts, mData$featureData, NULL)
 
+
+
+#########################################################################
+# ALTERNATIVELY, USE kallisto` or `salmon` TO QUANTIFY WITHOUT ALIGNING
+#########################################################################
+## !!! IMPORTANT: PSEUDOALIGNERS WON'T DETECT NOVEL TRANSCRIPTS OUTSIDE INDICES !!!
+## download kallisto transriptome indices from Pachter lab GitHub, eg.
+## wget https://github.com/pachterlab/kallisto-transcriptome-indices/releases/download/ensembl-96/homo_sapiens.tar.gz
+
+# cd ~/working/Databases/homo_sapiens
+# kallisto index -i transcriptome.idx transcriptome.fa
+# for fn in data/sample{01..40};
+#do
+# samp=`basename ${fn}`
+# echo "Processing sample ${samp}"
+# kallisto quant -i transcriptome.idx -o output ${fn}/${samp}_1.fastq.gz  ${fn}/${samp}_2.fastq.gz
+# done 
+
+counts <- read.csv("abundance.tsv")
+
 ###########################################
-# GENERATE DUMMY DATA FOR REMAINING EXAMPLES
+# ALTERNATELY, GENERATE DUMMY COUNTS MATRIX
 ###########################################
 
 # get a bunch of human gene names
@@ -83,7 +103,6 @@ counts <- matrix(sample(1:1e6, length(genes)*length(ptids)), nrow=length(genes),
 samples <- c(paste0(ptids,"_MEDIA"), paste0(ptids,"_STIM"))
 colnames(counts) <- samples
 rownames(counts) <- genes
-
 
 # create ExpressionSet
 dat <- ExpressionSet(assayData=as.matrix(counts))
