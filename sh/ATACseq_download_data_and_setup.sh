@@ -2,7 +2,7 @@
 
 export BT2IDX=/Users/ptv/working/Databases
  
-## download data
+## download human ATAC-seq data
 # NOTE: below are 1/400 subsampled versions
 # full versions are in SRA (ENCSR356KRQ)
 

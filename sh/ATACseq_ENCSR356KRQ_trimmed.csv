@@ -1,0 +1,9 @@
+sample_id,r1_fastq,r2_fastq,replicate
+sample1,sample1_R1.trimmed.fastq.gz,sample1_R2.trimmed.fastq.gz,rep2
+sample2,sample2_R1.trimmed.fastq.gz,sample2_R2.trimmed.fastq.gz,rep2
+sample3,sample3_R1.trimmed.fastq.gz,sample3_R2.trimmed.fastq.gz,rep2
+sample4,sample4_R1.trimmed.fastq.gz,sample4_R2.trimmed.fastq.gz,rep2
+sample5,sample5_R1.trimmed.fastq.gz,sample5_R2.trimmed.fastq.gz,rep2
+sample6,sample6_R1.trimmed.fastq.gz,sample6_R2.trimmed.fastq.gz,rep2
+sample7,sample7_R1.trimmed.fastq.gz,sample7_R2.trimmed.fastq.gz,rep1
+sample8,sample8_R1.trimmed.fastq.gz,sample8_R2.trimmed.fastq.gz,rep1
