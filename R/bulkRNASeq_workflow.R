@@ -402,6 +402,77 @@ for(i in 1:length(cons)) {
   comboGSEA[[i]] <- res
 }
 
+
+####################################################### 
+# SINGLE-SAMPLE GENE SET ENRICHMENT ANALYSIS (ssGSEA)
+#######################################################
+library(Biobase)
+library(GSVA)
+library(ggstatsplot)
+
+# expr_mat is our matrix of genes x conditions
+
+# create our custom gene list, need to be named
+my_gene_list <- list(c("PHLDA1"
+                    ,"ACTG1"
+                    ,"DYNLT4"
+                    ,"PLK3"
+                    ,"ACSL4"
+                    ,"KLHL6"
+                    ,"LONRF2"
+                    ,"PAQR4"
+                    ,"VSIR"
+                    ,"MYADM"
+                    ,"TLE4"))
+
+names(my_gene_list) <- "my_gene_list"
+
+# create the gsvaParam object to give to ssGSEA function
+gsva_param <- gsvaParam(
+  exprData = expr_mat,
+  geneSets = my_gene_list,
+  kcdf = "Poisson" # "Gaussian" for continuous values (eg. microarray), 
+)                  # "Poisson" for integer counts (eg. RNASeq)
+
+# actually run GSVA to get enrichment scores
+ssgsea_scores <- gsva(
+  gsva_param,
+  verbose = TRUE
+)
+
+# turn our vector of enrichment scores into a data.frame, label treatment groups
+# in this example "type" column has "healthy", "non.lesional" and "lesional" values
+sample_names <- colnames(ssgsea_scores)
+
+scores_df <- data.frame(t(data.frame(ssgsea_scores))) %>%
+  tibble::rownames_to_column("sample_name") %>%
+  separate("sample_name", c("sample_id", "type") , sep="_") %>%
+  mutate(type=factor(type, levels =c("healthy", "non.lesional","lesional")))
+
+# basic plot in ggplot2
+ggplot(scores_df, aes(x=type, y=my_gene_list)) +
+  geom_boxplot() +
+  geom_point()
+
+# ggstatsplot has better built-in stats
+png("first_pass.png", width=500, height=500)
+ggbetweenstats(scores_df,
+               x=type, y=my_gene_list,
+               violin.args = list(width = 0),
+               results.subtitle = FALSE, 
+               bf.message = FALSE, 
+               centrality.plotting = FALSE)  +
+  theme(axis.title.y.right = element_blank(), 
+        axis.text.y.right = element_blank(), 
+        axis.ticks.y.right = element_blank())
+dev.off()
+
+# write CSV of ssGSEA enrichment scores, though version with metadata is probably more useful
+# write.csv(ssgsea_scores, "ssgsea_enrichment_scores.csv", row.names = FALSE)
+write.csv(scores_df, "ssgsea_enrichment_scores.csv", row.names = FALSE)
+
+
+
 ###################################
 # GENE ONTOLOGY (G.O.) ANALYSIS
 ###################################
