@@ -34,6 +34,13 @@ pbmc <- SCTransform(pbmc, vars.to.regress = "percent.mt", verbose = FALSE)
 # find most variable features
 top10 <- head(VariableFeatures(pbmc), 10)
 
+# calculate module score
+my_module <- c("ASXL1","KIT","NPM1","FLT3")
+pbmc <- AddModuleScore(
+  pbmc,
+  features = list(c(my_module))
+)
+
 ### General plotting 
 # plot variable features with and without labels
 p1 <- VariableFeaturePlot(pbmc)
@@ -79,3 +86,27 @@ head(cluster2.markers, n = 5)
 # markers distinguishing cluster 5 from clusters 0 and 3
 cluster5.markers <- FindMarkers(pbmc, ident.1 = 5, ident.2 = c(0, 3))
 head(cluster5.markers, n = 5)
+
+## DEG conditional to a gene marker (comparing GeneX+ cells vs. GeneX- cells)
+## IMPORTANT: the next 2 examples below depend on made-up metadata:
+# a `treatment` column with 2 possible values: `control` or `treated`
+# CALCR+ vs. CALCR-
+Calcr_cells <- WhichCells(pbmc, expression = Calcr > 0, slot = "counts")
+pbmc$Calcr_expr <- ifelse(colnames(pbmc) %in% Gfral_cells, "pos", "neg")
+DEG_Calcr <- FindMarkers(so
+                         , ident.1="pos", ident.2="neg"
+                         , group.by = "Calcr_expr"
+                         , test.use="wilcox"
+                         , assay = "RNA"
+                         , slot = "counts"
+)
+
+# Gipr+ cells, control vs. treated
+pbmc_Gipr <- subset(pbmc, subset = Gipr_expr == "pos", slot = "counts")
+DEG_Gipr_fasting <- FindMarkers(so_Gipr
+                                , ident.1="control", ident.2="treated"
+                                , group.by = "treatment"
+                                , test.use="wilcox"
+                                , assay = "RNA"
+                                , slot = "counts"
+)
