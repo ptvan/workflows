@@ -218,6 +218,35 @@ map <- merge(mouse, E2GN, by="ensembl_gene_id")
 map$mmusculus_homolog_associated_gene_name <- toupper(map$mmusculus_homolog_associated_gene_name)
 map[c("hgnc_symbol","mmusculus_homolog_associated_gene_name")]
 
+####################################
+# CONVERTING COUNTS TO OTHER FORMATS
+####################################
+counts <- read.csv("counts_with_genesymbol_column.csv")
+
+## counts to CPM
+dge <- DGEList(counts)
+dge <- calcNormFactors(dge)
+cpm <- cpm(dge)
+rownames(cpm) <- counts$gene_symbol
+cpm <- tibble::rownames_to_column(data.frame(cpm), "gene_symbol")
+
+## counts to TPM
+# calculate exonic lengths required by edgeR's rpkm()
+mm10db <- makeTxDbFromUCSC(genome="mm10", tablename="refGene")
+exons <- exonsBy(mm10db, by="gene")
+reduced_exons <- reduce(exons)
+exon_lengths <- vapply(width(reduced_exons), sum, numeric(1))
+
+# convert counts -> TPM
+# formula given by Gordon Smyth, author of edgeR: 
+# https://www.biostars.org/p/388584/
+dge <- DGEList(counts)
+dge <- calcNormFactors(dge)
+RPKM <- rpkm(dge, gene.length = exon_lengths)
+TPM <- t( t(RPKM) / colSums(RPKM) ) * 1e6
+TPM <- data.frame(TPM)
+rownames(TPM) <- counts$gene_symbol
+
 ##############################
 # FILTERING GENES
 ##############################
