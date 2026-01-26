@@ -398,6 +398,50 @@ WGCNAmodules <- modules$colors
 # skip module 0 (genes that don't fit in any module) 
 WGCNAmodules <- WGCNAmodules[WGCNAmodules > 0]
 
+#######################################
+# OVER-REPRESENTATION ANALYSIS (O.R.A)
+#######################################
+library(clusterProfiler)
+library(org.Hs.eg.db)
+library(magrittr)
+
+# for ORA we need genes of interest and a background geneset,   
+# > head GOlists.tsv
+# GO:0042448      Bisbis_mRNA19527
+# GO:0047442      Bisbis_mRNA19527
+# GO:0005506      Bisbis_mRNA19766
+# GO:0005789      Bisbis_mRNA19766
+
+# > head GOterms.tsv
+# GO:0000001      mitochondrion_inheritance
+# GO:0000002      mitochondrial_genome_maintenance
+# GO:0000003      reproduction
+# GO:0000005      obsolete_ribosomal_chaperone_activity
+
+Golist <- read.table("GOlist.tsv")
+GOterms <- read.table("GOterms.tsv")
+
+# Perform GO enrichment analysis
+gene_list <- c("Bisbis_mRNA10000",
+                "Bisbis_mRNA10004",
+                "Bisbis_mRNA10005",
+                "Bisbis_mRNA10058",
+                "Bisbis_mRNA10091"
+)
+
+enricherGO <- enricher(
+  gene_list,                
+  pvalueCutoff = 0.05, 
+  pAdjustMethod = "BH",
+  TERM2GENE = Golist, 
+  TERM2NAME = GOterms  
+)
+
+dotplot(enricherGO, 
+        showCategory = 30,    
+        font.size = 8) +     
+        ggtitle("ORA of gene_list")
+
 
 ################################################## 
 # GENE SET ENRICHMENT ANALYSIS (G.S.E.A)
@@ -499,8 +543,6 @@ dev.off()
 # write CSV of ssGSEA enrichment scores, though version with metadata is probably more useful
 # write.csv(ssgsea_scores, "ssgsea_enrichment_scores.csv", row.names = FALSE)
 write.csv(scores_df, "ssgsea_enrichment_scores.csv", row.names = FALSE)
-
-
 
 ###################################
 # GENE ONTOLOGY (G.O.) ANALYSIS
