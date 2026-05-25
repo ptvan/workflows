@@ -45,12 +45,12 @@ pairtools stats output.sorted.pairs.gz -o output.stats
 # create report from stats file
 multiqc output.stats
 
-# binning into a .cool file
+# binning .pairs file into a .cool file
 cooler cooler cload pairs \
     -c1 2 -p1 3 -c2 4 -p2 5 \
     --assembly hg38 \
     ~/.local/share/genomes/hg38/hg38.fa.sizes:1000000 \ 
-    output.pairs.gz \
+    output.sorted.pairs.gz \
     output.hg38.1000000.cool
 
 # normalize .cool, aggregate into .mcool, perform balancing on each zoom level
@@ -62,4 +62,4 @@ cooler zoomify \
     --balance \
     output.hg38.1000000.cool
 
-# at this point the .mcool file can be view in HiGlass
+# at this point the .mcool file can be viewed in HiGlass or used to generate static figures
