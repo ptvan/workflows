@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-# map reads to reference genome
-bwa mem -SP5M -t8 hg38.fast input_R1.fastq input_R2.fastq | \
+# map reads to reference genome using BWA, disable pairing
+bwa mem -SP5M -t8 hg38.fasta input_R1.fastq input_R2.fastq | \
    samtools view -bhS - > output.bam
 
 # filter and sort mapped reads
