@@ -1,11 +1,15 @@
 #!/usr/bin/bash
 
+# create the <GENOME>.sizes file required by ligation and binning steps
+samtools faidx hg38.fa
+cut -f1,2 hg38.fa.fai > hg38.fa.sizes
+
 # map reads to reference genome using BWA, disable pairing
 bwa mem -SP5M -t8 hg38.fa input_R1.fastq input_R2.fastq | \
    samtools view -bhS - > output.bam
 
 # detect ligation pairs from mapped reads
-pairtools parse -o output.parsed.pairsam.gz -c hg38.fa.sizes \
+pairtools parse -o output.parsed.pairs.gz -c hg38.fa.sizes \
   --drop-sam --drop-seq --output-stats output.stats \
   --assembly hg38 --no-flip \
   --add-columns mapq \
@@ -51,7 +55,7 @@ multiqc output.stats
 cooler cooler cload pairs \
     -c1 2 -p1 3 -c2 4 -p2 5 \
     --assembly hg38 \
-    ~/.local/share/genomes/hg38/hg38.fa.sizes:1000000 \ 
+    hg38.fa.sizes:1000000 \ 
     output.nodups.UU.pairs.gz \
     output.hg38.1000000.cool
 
