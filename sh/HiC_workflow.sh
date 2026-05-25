@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
 # map reads to reference genome using BWA, disable pairing
-bwa mem -SP5M -t8 hg38.fasta input_R1.fastq input_R2.fastq | \
+bwa mem -SP5M -t8 hg38.fa input_R1.fastq input_R2.fastq | \
    samtools view -bhS - > output.bam
 
-# filter and sort mapped reads
+# detect ligation pairs from mapped reads
 pairtools parse -o output.parsed.pairsam.gz -c hg38.fa.sizes \
   --drop-sam --drop-seq --output-stats output.stats \
   --assembly hg38 --no-flip \
@@ -12,9 +12,10 @@ pairtools parse -o output.parsed.pairsam.gz -c hg38.fa.sizes \
   --walks-policy mask \
   output.bam
 
+# sort pairs lexicographically
 pairtools sort --nproc 8 -o output.sorted.pairs.gz output.parsed.pairs.gz
 
-# deduplicate
+# deduplicate pairs
 pairtools dedup \
     --max-mismatch 3 \
     --mark-dups \
@@ -36,11 +37,12 @@ pairtools dedup \
     --output-stats output.dedup.stats \
     output.sorted.pairs.gz
 
-# select
-pairtools select "mapq1>0 and mapq2>0" output.nodups.pairs.gz -o test.nodups.UU.pairs.gz
+# filter pairs
+# pairtools select '(pair_type == "UU") or (pair_type == "UR") or (pair_type == "RU")' output.nodups.pairs.gz -o output.nodups.UU.pairs.gz
+pairtools select "mapq1>0 and mapq2>0" output.nodups.pairs.gz -o output.nodups.UU.pairs.gz
 
 # generate stats
-pairtools stats output.sorted.pairs.gz -o output.stats
+pairtools stats output.nodups.UU.pairs.gz -o output.stats
 
 # create report from stats file
 multiqc output.stats
@@ -50,10 +52,10 @@ cooler cooler cload pairs \
     -c1 2 -p1 3 -c2 4 -p2 5 \
     --assembly hg38 \
     ~/.local/share/genomes/hg38/hg38.fa.sizes:1000000 \ 
-    output.sorted.pairs.gz \
+    output.nodups.UU.pairs.gz \
     output.hg38.1000000.cool
 
-# normalize .cool, aggregate into .mcool, perform balancing on each zoom level
+# aggregate .cool into .mcool, perform normalization on each zoom level
 # NOTE: this is an in-place operation and does not generate a new file
 cooler zoomify \
     --nproc 5 \
